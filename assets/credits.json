@@ -1,0 +1,11 @@
+{
+  "note": "Loghi, foto e immagini provengono dal sito ufficiale della Coppa dei Club (umbriacoppadeiclub.it); la miniatura del video proviene da YouTube (canale Noi Sport).",
+  "sources": {
+    "logo-coppa.png": "https://umbriacoppadeiclub.it/logo-coppa.png",
+    "hero-padel.jpg": "https://umbriacoppadeiclub.it/hero-padel.jpg",
+    "logos/*": "https://umbriacoppadeiclub.it/logos/",
+    "sponsor/*": "https://umbriacoppadeiclub.it/sponsor/",
+    "teams/hangar-padel-orvieto.jpg": "https://umbriacoppadeiclub.it/teams/hangar-padel-orvieto.jpg",
+    "media/video-noisport.jpg": "https://www.youtube.com/watch?v=7Z5xFLYZ53M"
+  }
+}

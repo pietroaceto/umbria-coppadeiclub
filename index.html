@@ -1,0 +1,2159 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coppa dei Club 2026/27 · Campionato regionale padel MSP Italia Umbria</title>
+<meta name="description" content="Calendari, risultati, classifiche, circoli e regolamento della Coppa dei Club 2026/27 – Campionato regionale padel MSP Italia, Umbria.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* OD-LAYOUT-PRIMITIVES v1 — structure only: display, flex/grid, overflow, wrapping, ratio, geometry.
+   Put this @layer first; product CSS outside the layer wins ordinary layout rules.
+   Native hidden and closed-dialog states take precedence over component display rules. */
+@layer od-layout {
+  [hidden]:not([hidden="until-found" i]) { display: none !important; }
+  dialog:not([open]) { display: none !important; }
+
+  :where(.od-stack,.od-row,.od-row-top,.od-cluster,.od-grid,.od-field,.od-stat,.od-cell,.od-tile) > :where(*) { min-width: 0; }
+
+  .od-stack   { display: flex; flex-direction: column; gap: var(--od-gap, 8px); }
+  .od-row     { display: flex; align-items: center; gap: var(--od-gap, 8px); }
+  .od-row-top { display: flex; align-items: flex-start; gap: var(--od-gap, 8px); }
+  .od-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--od-gap, 8px); }
+  .od-fill    { flex: 1 1 0; min-width: 0; }
+  .od-fixed   { flex: none; }
+  .od-grid    { display: grid; gap: var(--od-gap, 12px); grid-template-columns: repeat(var(--od-cols, 3), minmax(0, 1fr)); }
+
+  .od-stat, .od-field, .od-cell { display: grid; gap: var(--od-gap, 2px); }
+  :where(.od-stat,.od-field,.od-cell) > :where(*) { display: block; }
+  .od-tile { display: grid; grid-template-rows: auto 1fr; }
+  :where(.od-tile) > :where(*) { display: block; }
+
+  .od-media { display: block; width: 100%; height: auto; aspect-ratio: var(--od-ratio, auto); }
+  .od-media-cover { object-fit: cover; }
+
+  .od-icon { display: inline-block; inline-size: var(--od-icon-size, 1em); block-size: var(--od-icon-size, 1em); flex: none; }
+
+  .od-truncate { display: block; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .od-clamp-2, .od-clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .od-clamp-2 { -webkit-line-clamp: 2; }
+  .od-clamp-3 { -webkit-line-clamp: 3; }
+  .od-lines-2 { min-height: calc(2 * 1.4em); }
+  .od-nowrap  { white-space: nowrap; }
+  .od-keep    { word-break: keep-all; overflow-wrap: anywhere; }
+
+  .od-screen { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100%; }
+  .od-scroll { overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+
+  .od-rail { display: flex; gap: var(--od-gap, 8px); overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none;
+             padding-inline: var(--od-rail-pad, 16px); scroll-padding-inline: var(--od-rail-pad, 16px); }
+  .od-rail::-webkit-scrollbar { display: none; }
+  :where(.od-rail) > :where(*) { flex: none; scroll-snap-align: start; }
+  :where(.od-rail) > :where(:last-child) { margin-inline-end: var(--od-rail-pad, 16px); }
+
+  .od-spacer { flex: none; visibility: hidden; pointer-events: none; }
+  .od-touch  { min-width: 44px; min-height: 44px; }
+}
+:root [hidden]:where(:not([hidden="until-found" i])) { display: none; }
+/* /OD-LAYOUT-PRIMITIVES v1 */
+
+/* ============ Design tokens ============ */
+:root {
+  /* palette: campo da padel + pallina */
+  --navy-900: #0A1A30;
+  --navy-800: #0F2744;
+  --navy-700: #183A62;
+  --court: #1F5FAE;
+  --court-hover: #174C8C;
+  --court-tint: #E3EDF9;
+  --ball: #D4F03A;
+  --ball-hover: #C3E022;
+  --bg: #F3F5F8;
+  --surface: #FFFFFF;
+  --line: #DCE2EA;
+  --line-strong: #C3CCD8;
+  --text: #0F1A2A;
+  --muted: #4B586B;
+  --on-dark: #FFFFFF;
+  --on-dark-muted: #B9C6D8;
+  --gold: #C9962E;
+  --gold-bg: #F7EBCB;
+  --gold-ink: #6A4908;
+  --silver: #8E99A8;
+  --silver-bg: #E6EAF0;
+  --silver-ink: #374253;
+  --win-bg: #DDF3E8;
+  --win-ink: #0F5E3C;
+  --loss-bg: #FBE4E4;
+  --loss-ink: #8E2424;
+  --draw-bg: #ECEFF3;
+  --error: #B42318;
+  --error-bg: #FDECEA;
+  --success: #0F5E3C;
+  --success-bg: #DDF3E8;
+  --focus: #1F5FAE;
+
+  /* type */
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-xs: 0.8125rem;  /* 13 */
+  --fs-sm: 0.875rem;   /* 14 */
+  --fs-md: 1rem;       /* 16 */
+  --fs-lg: 1.125rem;   /* 18 */
+  --fs-xl: 1.5rem;     /* 24 */
+  --fs-2xl: 2rem;      /* 32 */
+  --fs-3xl: clamp(2.25rem, 4vw + 1rem, 3.5rem);
+  --fs-hero: clamp(3rem, 7vw + 1rem, 6rem);
+
+  /* spacing (multipli di 4/8) */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px;
+  --s-8: 32px; --s-10: 40px; --s-12: 48px; --s-16: 64px; --s-20: 80px;
+
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 2px rgba(10, 26, 48, .06), 0 4px 16px rgba(10, 26, 48, .06);
+
+  --dur-fast: 160ms;
+  --dur: 240ms;
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in: cubic-bezier(.5, 0, .75, 0);
+
+  --header-h: 64px;
+  --tabbar-h: 64px;
+  --container: 1200px;
+}
+
+/* ============ Base ============ */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + var(--s-4)); }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+h1, h2, h3, h4 { margin: 0; line-height: 1.15; }
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+a { color: var(--court); text-underline-offset: 3px; }
+@media (hover: hover) { a:hover { color: var(--court-hover); } }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.on-dark :focus-visible { outline-color: var(--ball); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip-link { position: absolute; left: var(--s-4); top: -100px; z-index: 100; background: var(--navy-900); color: var(--on-dark); padding: var(--s-3) var(--s-4); border-radius: var(--radius-sm); }
+.skip-link:focus { top: var(--s-2); color: var(--on-dark); }
+
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: max(var(--s-6), env(safe-area-inset-left)) max(var(--s-6), env(safe-area-inset-right)); }
+@media (min-width: 768px) { .container { padding-inline: var(--s-8); } }
+@media (min-width: 1440px) { .container { padding-inline: var(--s-10); } }
+
+.display { font-family: var(--font-display); font-weight: 700; letter-spacing: .01em; text-transform: uppercase; }
+.eyebrow { font-size: var(--fs-xs); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.on-dark .eyebrow { color: var(--on-dark-muted); }
+.lead { font-size: var(--fs-lg); color: var(--muted); max-width: 62ch; }
+.muted { color: var(--muted); }
+.small { font-size: var(--fs-sm); }
+
+/* ============ Buttons ============ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
+  min-height: 44px; padding: 0 var(--s-5);
+  border-radius: var(--radius-sm); border: 1px solid transparent;
+  font-weight: 600; font-size: var(--fs-md); text-decoration: none; white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.btn-primary { background: var(--ball); color: var(--navy-900); }
+.btn-secondary { background: var(--navy-900); color: var(--on-dark); }
+.btn-outline { background: var(--surface); color: var(--navy-900); border-color: var(--line-strong); }
+.btn-ghost-dark { background: transparent; color: var(--on-dark); border-color: rgba(255,255,255,.4); }
+.btn-text { background: transparent; color: var(--court); padding-inline: var(--s-2); }
+@media (hover: hover) {
+  .btn-primary:hover { background: var(--ball-hover); color: var(--navy-900); }
+  .btn-secondary:hover { background: var(--navy-700); color: var(--on-dark); }
+  .btn-outline:hover { border-color: var(--navy-900); color: var(--navy-900); }
+  .btn-ghost-dark:hover { border-color: var(--on-dark); background: rgba(255,255,255,.08); color: var(--on-dark); }
+  .btn-text:hover { color: var(--court-hover); background: var(--court-tint); }
+}
+.btn[disabled], .btn[aria-disabled="true"] { background: var(--line); color: var(--muted); border-color: var(--line); cursor: not-allowed; }
+.btn .od-icon { --od-icon-size: 20px; }
+.btn.is-loading .btn-label::after { content: "…"; }
+
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px; border-radius: var(--radius-sm);
+  background: transparent; border: 0; color: var(--muted);
+}
+.icon-btn .od-icon { --od-icon-size: 22px; }
+@media (hover: hover) { .icon-btn:hover { background: var(--court-tint); color: var(--navy-900); } }
+.star-btn[aria-pressed="true"] { color: var(--gold); }
+.star-btn[aria-pressed="true"] svg path { fill: currentColor; }
+
+/* ============ Badges ============ */
+.badge { display: inline-flex; align-items: center; gap: var(--s-1); padding: 2px var(--s-2); border-radius: 999px; font-size: var(--fs-xs); font-weight: 600; white-space: nowrap; line-height: 1.5; }
+.badge-gold { background: var(--gold-bg); color: var(--gold-ink); }
+.badge-silver { background: var(--silver-bg); color: var(--silver-ink); }
+.badge-gold::before, .badge-silver::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+.badge-silver::before { background: var(--silver); }
+.badge-played { background: var(--win-bg); color: var(--win-ink); }
+.badge-next { background: var(--ball); color: var(--navy-900); }
+.badge-upcoming { background: var(--draw-bg); color: var(--muted); }
+
+/* ============ Header ============ */
+.site-header {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.header-inner { display: flex; align-items: center; gap: var(--s-4); min-height: var(--header-h); }
+.brand { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-2) 0; border: 0; background: none; color: var(--text); text-align: left; }
+.brand img { display: block; width: 142px; height: auto; }
+.brand-meta { display: block; font-size: var(--fs-xs); font-weight: 600; color: var(--muted); border-left: 1px solid var(--line); padding-left: var(--s-3); line-height: 1.3; }
+.main-nav { display: none; }
+.header-actions { margin-left: auto; display: flex; align-items: center; gap: var(--s-2); }
+.header-login-label { display: none; }
+@media (min-width: 480px) { .header-login-label { display: inline; } }
+@media (min-width: 1024px) {
+  .main-nav { display: flex; align-items: stretch; gap: var(--s-1); margin-left: var(--s-4); align-self: stretch; }
+  .main-nav button {
+    position: relative; display: flex; align-items: center; padding: 0 var(--s-3);
+    background: none; border: 0; font-weight: 600; font-size: var(--fs-sm); color: var(--muted);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .main-nav button::after { content: ""; position: absolute; left: var(--s-3); right: var(--s-3); bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: transparent; }
+  .main-nav button[aria-current="page"] { color: var(--navy-900); }
+  .main-nav button[aria-current="page"]::after { background: var(--court); }
+}
+@media (min-width: 1024px) and (hover: hover) { .main-nav button:hover { color: var(--navy-900); } }
+
+/* ============ Bottom tab bar (mobile/tablet) ============ */
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  background: var(--surface); border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tabbar ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); max-width: 640px; margin-inline: auto; }
+.tabbar button {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  width: 100%; min-height: var(--tabbar-h); padding: var(--s-2) var(--s-1);
+  background: none; border: 0; color: var(--muted); font-size: 0.75rem; font-weight: 600;
+}
+.tabbar button .od-icon { --od-icon-size: 24px; }
+.tabbar button > span { display: block; }
+.tabbar button[aria-current="page"] { color: var(--court); }
+.tabbar button[aria-current="page"] .tab-ind { background: var(--court-tint); }
+.tab-ind { display: flex; align-items: center; justify-content: center; width: 56px; height: 28px; border-radius: 999px; transition: background-color var(--dur-fast) var(--ease-out); }
+body { padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom)); }
+@media (min-width: 1024px) { .tabbar { display: none; } body { padding-bottom: 0; } }
+
+/* ============ Views ============ */
+.view { animation: view-in var(--dur) var(--ease-out); }
+@keyframes view-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.view-head { padding: var(--s-8) 0 var(--s-6); }
+.view-head h1 { font-size: var(--fs-3xl); margin-top: var(--s-2); }
+.view-head h1:focus { outline: none; }
+.view-head .lead { margin-top: var(--s-3); }
+.section { padding-block: var(--s-12); }
+.section-tight { padding-block: var(--s-8); }
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; margin-bottom: var(--s-6); }
+.section-head h2 { font-size: var(--fs-2xl); }
+.section-head .od-stack { --od-gap: 4px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+.card-pad { padding: var(--s-6); }
+@media (max-width: 479px) { .card-pad { padding: var(--s-5); } }
+
+/* ============ Hero ============ */
+.hero { position: relative; background: var(--navy-900); color: var(--on-dark); overflow: hidden; isolation: isolate; }
+.hero-bg { position: absolute; inset: 0; z-index: -2; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(10,26,48,.96) 0%, rgba(10,26,48,.86) 55%, rgba(10,26,48,.7) 100%); }
+.hero-inner { padding-block: var(--s-12) var(--s-10); }
+@media (min-width: 768px) { .hero-inner { padding-block: var(--s-20) var(--s-16); } }
+.hero h1 { font-size: var(--fs-hero); line-height: .95; margin-top: var(--s-3); }
+.hero h1 .hl { color: var(--ball); display: block; }
+.hero .lead { color: var(--on-dark-muted); margin-top: var(--s-4); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-8); }
+.hero-stats { --od-cols: 2; --od-gap: 0; margin-top: var(--s-10); border-top: 1px solid rgba(255,255,255,.18); }
+@media (min-width: 768px) { .hero-stats { --od-cols: 4; } }
+.hero-stats .od-stat { padding: var(--s-4) var(--s-4) 0 0; }
+.stat-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 3vw + 1rem, 3rem); line-height: 1; color: var(--on-dark); white-space: nowrap; }
+.stat-label { font-size: var(--fs-sm); color: var(--on-dark-muted); }
+
+/* ============ Next round strip ============ */
+.next-strip { background: var(--ball); color: var(--navy-900); }
+.next-strip .container { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-6); padding-block: var(--s-4); }
+.next-strip strong { font-family: var(--font-display); font-size: var(--fs-xl); text-transform: uppercase; letter-spacing: .01em; }
+.next-strip .btn { margin-left: auto; }
+@media (max-width: 599px) { .next-strip .btn { margin-left: 0; } }
+.next-strip .od-field { --od-gap: 0; }
+.next-strip .od-field span:first-child { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+
+/* ============ Home grids ============ */
+.home-grid { display: grid; gap: var(--s-6); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) { .home-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
+
+.results-list { display: grid; gap: var(--s-3); }
+.match {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: var(--s-3);
+  padding: var(--s-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.match-team { display: flex; align-items: center; gap: var(--s-3); min-width: 0; }
+.match-team.home { justify-content: flex-end; text-align: right; }
+.match-team .name { font-weight: 500; font-size: var(--fs-sm); line-height: 1.35; overflow-wrap: anywhere; }
+.match-team.is-winner .name { font-weight: 700; }
+.match-team .logo-box { width: 36px; height: 36px; }
+@media (max-width: 479px) { .match-team .logo-box { display: none; } }
+.score { display: flex; align-items: center; gap: 2px; background: var(--navy-900); color: var(--ball); border-radius: var(--radius-sm); padding: var(--s-1) var(--s-3); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xl); line-height: 1.2; white-space: nowrap; }
+.score .sep { color: var(--on-dark-muted); padding-inline: 2px; }
+.match-meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-1) var(--s-3); font-size: var(--fs-xs); color: var(--muted); border-top: 1px dashed var(--line); padding-top: var(--s-2); }
+.rest-note { font-size: var(--fs-sm); color: var(--muted); padding: var(--s-2) var(--s-1); }
+
+.logo-box { flex: none; display: flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; padding: 3px; }
+.logo-box img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+.logo-box.mono { background: var(--navy-800); border-color: var(--navy-800); color: var(--ball); font-family: var(--font-display); font-weight: 700; font-size: .875rem; }
+
+/* Series cards */
+.series-grid { display: grid; gap: var(--s-4); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 768px) { .series-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.series-card { padding: var(--s-6); display: grid; gap: var(--s-4); border-top: 4px solid var(--gold); }
+.series-card.silver { border-top-color: var(--silver); }
+.series-card .series-logo { width: 160px; height: auto; display: block; }
+.series-card .od-row { justify-content: space-between; flex-wrap: wrap; }
+.series-facts { display: flex; gap: var(--s-8); }
+.series-facts .od-stat span:first-child { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-2xl); line-height: 1; }
+.series-facts .od-stat span:last-child { font-size: var(--fs-sm); color: var(--muted); }
+.girone-links { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.girone-link {
+  min-width: 44px; min-height: 44px; padding: 0 var(--s-3);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); color: var(--navy-900);
+}
+@media (hover: hover) { .girone-link:hover { border-color: var(--navy-900); background: var(--surface); } }
+
+/* My team card */
+.myteam { background: var(--navy-900); color: var(--on-dark); border-radius: var(--radius-lg); padding: var(--s-6); display: grid; gap: var(--s-4); align-content: start; }
+.myteam h2 { font-size: var(--fs-xl); }
+.myteam .myteam-name { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 700; text-transform: uppercase; line-height: 1.05; overflow-wrap: anywhere; }
+.myteam .myteam-stats { --od-cols: 3; --od-gap: var(--s-2); }
+.myteam .od-stat { background: rgba(255,255,255,.06); border-radius: var(--radius-sm); padding: var(--s-3); }
+.myteam .od-stat span:first-child { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-2xl); line-height: 1; color: var(--ball); white-space: nowrap; }
+.myteam .od-stat span:last-child { font-size: var(--fs-xs); color: var(--on-dark-muted); }
+.myteam p { color: var(--on-dark-muted); }
+.myteam .od-cluster { --od-gap: var(--s-2); }
+
+/* News + video */
+.news-grid { display: grid; gap: var(--s-4); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 768px) { .news-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.news-card { display: grid; gap: var(--s-3); padding: var(--s-5); color: var(--text); text-decoration: none; align-content: start; transition: border-color var(--dur-fast) var(--ease-out); }
+.news-card .src-logo { height: 20px; width: auto; display: block; }
+.news-card h3 { font-size: var(--fs-lg); line-height: 1.35; }
+.news-card .more { display: inline-flex; align-items: center; gap: var(--s-1); color: var(--court); font-weight: 600; font-size: var(--fs-sm); }
+@media (hover: hover) { .news-card:hover { border-color: var(--navy-900); color: var(--text); } }
+.video-card { padding: 0; overflow: hidden; }
+.video-thumb { position: relative; display: block; background: var(--navy-900); }
+.video-thumb img { display: block; width: 100%; height: auto; aspect-ratio: 320 / 180; }
+.play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 56px; height: 56px; border-radius: 50%; background: var(--ball); color: var(--navy-900); display: flex; align-items: center; justify-content: center; }
+.play .od-icon { --od-icon-size: 24px; }
+.video-card .video-body { padding: var(--s-4) var(--s-5) var(--s-5); display: grid; gap: var(--s-2); }
+
+/* Sponsors */
+.sponsors { background: var(--surface); border-block: 1px solid var(--line); }
+.sponsor-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-8) var(--s-12); }
+.sponsor-row img { display: block; height: auto; }
+.sponsor-group { display: grid; gap: var(--s-4); }
+.sponsors .container { display: grid; gap: var(--s-10); }
+@media (min-width: 1024px) { .sponsors .container { grid-template-columns: 2fr 1fr; } }
+
+/* ============ Gare view ============ */
+.controls { display: grid; gap: var(--s-4); }
+.segmented { display: inline-grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 4px; width: 100%; max-width: 360px; }
+.segmented button { min-height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font-weight: 700; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: var(--s-2); transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.segmented button[aria-pressed="true"] { background: var(--navy-900); color: var(--on-dark); }
+.segmented .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+.segmented .dot.silver { background: var(--silver); }
+.girone-rail { --od-rail-pad: 0px; --od-gap: var(--s-2); padding-bottom: 2px; }
+.girone-chip {
+  min-height: 44px; padding: 0 var(--s-4); border-radius: 999px;
+  border: 1px solid var(--line-strong); background: var(--surface); color: var(--navy-900);
+  font-weight: 600; font-size: var(--fs-sm); white-space: nowrap;
+}
+.girone-chip[aria-pressed="true"] { background: var(--court); border-color: var(--court); color: var(--on-dark); }
+@media (hover: hover) { .girone-chip:not([aria-pressed="true"]):hover { border-color: var(--navy-900); } }
+
+.tabs { display: flex; gap: var(--s-1); border-bottom: 1px solid var(--line); margin-top: var(--s-6); overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button { position: relative; min-height: 48px; padding: 0 var(--s-4); background: none; border: 0; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.tabs button[aria-selected="true"] { color: var(--navy-900); }
+.tabs button[aria-selected="true"]::after { content: ""; position: absolute; left: var(--s-3); right: var(--s-3); bottom: -1px; height: 3px; border-radius: 3px 3px 0 0; background: var(--court); }
+@media (hover: hover) { .tabs button:hover { color: var(--navy-900); } }
+.tabpanel { padding: var(--s-6) 0 var(--s-12); }
+.panel-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: var(--s-2) var(--s-4); margin-bottom: var(--s-4); }
+.panel-head h2 { font-size: var(--fs-xl); }
+
+.standings { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: var(--fs-sm); }
+.standings th { text-align: center; font-size: var(--fs-xs); font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: var(--s-3) var(--s-1); background: var(--bg); border-bottom: 1px solid var(--line); }
+.standings th.t-team { text-align: left; padding-left: var(--s-2); }
+.standings td { text-align: center; padding: var(--s-2) var(--s-1); border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.standings tr:last-child td { border-bottom: 0; }
+.standings td.t-team { text-align: left; padding-left: var(--s-2); }
+.standings .t-pos { width: 40px; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); }
+.standings .t-num { width: 40px; }
+.standings .t-inc { width: 56px; white-space: nowrap; }
+.standings .t-pts { width: 48px; font-weight: 700; font-size: var(--fs-md); }
+.standings td.t-pts { background: var(--court-tint); color: var(--navy-900); }
+.standings .t-fav { width: 48px; }
+.standings .team-cell { display: flex; align-items: center; gap: var(--s-2); min-width: 0; }
+.standings .team-cell .logo-box { width: 32px; height: 32px; }
+.standings .team-cell .name { font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.standings tr.is-fav td { background: #FBF6E6; }
+.standings tr.is-fav td.t-pts { background: var(--gold-bg); }
+.fav-tag { display: block; font-size: 0.75rem; font-weight: 600; color: var(--gold-ink); }
+@media (max-width: 599px) {
+  .standings .col-x { display: none; }
+  .standings .t-num { width: 32px; }
+  .standings .t-pos { width: 32px; }
+}
+@media (max-width: 399px) { .standings .team-cell .logo-box { display: none; } }
+.legend { margin-top: var(--s-3); font-size: var(--fs-xs); color: var(--muted); }
+.points-box { margin-top: var(--s-6); padding: var(--s-5); display: grid; gap: var(--s-3); }
+.points-box h3 { font-size: var(--fs-lg); }
+.points-list { display: grid; gap: var(--s-2); grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+.points-list li { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-3); background: var(--bg); border-radius: var(--radius-sm); }
+.points-list .score { font-size: var(--fs-lg); }
+
+.round { margin-bottom: var(--s-8); }
+.round-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--s-2) var(--s-3); margin-bottom: var(--s-3); }
+.round-head h3 { font-family: var(--font-display); font-size: var(--fs-xl); text-transform: uppercase; }
+
+.cal-list { display: grid; gap: var(--s-2); }
+.cal-row { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: var(--s-4); padding: var(--s-3) var(--s-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.cal-row.is-next { border-color: var(--navy-900); box-shadow: inset 4px 0 0 var(--ball); }
+.cal-num { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-2xl); line-height: 1; color: var(--navy-900); }
+.cal-row .od-field span:first-child { font-weight: 600; }
+.cal-row .od-field span:last-child { font-size: var(--fs-sm); color: var(--muted); }
+
+.team-grid { display: grid; gap: var(--s-3); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 600px) { .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .team-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.team-item { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.team-item .logo-box { width: 48px; height: 48px; }
+.team-item .od-field span:first-child { font-weight: 600; line-height: 1.3; }
+.team-item .od-field span:last-child { font-size: var(--fs-sm); color: var(--muted); }
+
+.empty { text-align: center; padding: var(--s-10) var(--s-6); display: grid; justify-items: center; gap: var(--s-3); }
+.empty > .od-icon { --od-icon-size: 40px; color: var(--court); }
+.empty h3 { font-size: var(--fs-lg); }
+.empty p { color: var(--muted); max-width: 48ch; }
+
+/* ============ Circoli ============ */
+.filter-bar { display: grid; gap: var(--s-3); grid-template-columns: minmax(0, 1fr); align-items: end; }
+@media (min-width: 768px) { .filter-bar { grid-template-columns: minmax(0, 1fr) auto; } }
+.field { display: grid; gap: var(--s-1); }
+.field > label, .field > .label { font-weight: 600; font-size: var(--fs-sm); }
+.field .req { color: var(--error); }
+.field .hint { font-size: var(--fs-xs); color: var(--muted); }
+.input, .select, .textarea {
+  width: 100%; min-height: 48px; padding: var(--s-3) var(--s-4);
+  background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+  font-size: var(--fs-md); transition: border-color var(--dur-fast) var(--ease-out);
+}
+.textarea { min-height: 128px; resize: vertical; line-height: 1.5; }
+.input:focus-visible, .select:focus-visible, .textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 0; border-color: var(--focus); }
+.input[aria-invalid="true"], .select[aria-invalid="true"], .textarea[aria-invalid="true"] { border-color: var(--error); }
+.field-error { display: flex; gap: var(--s-1); align-items: flex-start; font-size: var(--fs-sm); color: var(--error); font-weight: 500; }
+.field-error .od-icon { --od-icon-size: 18px; margin-top: 2px; }
+.search-wrap { position: relative; }
+.search-wrap .od-icon { position: absolute; left: var(--s-4); top: 50%; transform: translateY(-50%); --od-icon-size: 20px; color: var(--muted); pointer-events: none; }
+.search-wrap .input { padding-left: 48px; padding-right: 52px; }
+.search-wrap .clear { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); }
+.search-wrap .clear .od-icon { position: static; transform: none; }
+.result-count { margin: var(--s-4) 0; font-size: var(--fs-sm); color: var(--muted); }
+
+.club-grid { display: grid; gap: var(--s-4); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 768px) { .club-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1200px) { .club-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.club-card { padding: var(--s-5); display: grid; gap: var(--s-4); align-content: start; }
+.club-card .od-row-top { --od-gap: var(--s-4); }
+.club-card .logo-box { width: 64px; height: 64px; }
+.club-card h3 { font-size: var(--fs-lg); line-height: 1.3; }
+.club-card .addr { font-size: var(--fs-sm); color: var(--muted); }
+.club-teams { display: grid; gap: var(--s-2); }
+.team-chip {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-2);
+  width: 100%; min-height: 44px; padding: var(--s-2) var(--s-3);
+  background: var(--bg); border: 1px solid transparent; border-radius: var(--radius-sm);
+  text-align: left; font-size: var(--fs-sm); font-weight: 500; color: var(--text);
+}
+.team-chip .t-name { overflow-wrap: anywhere; }
+.team-chip .t-go { display: flex; align-items: center; gap: var(--s-2); flex: none; }
+.team-chip .od-icon { --od-icon-size: 16px; color: var(--muted); }
+@media (hover: hover) { .team-chip:hover { border-color: var(--navy-900); background: var(--surface); } }
+.map-link { display: inline-flex; align-items: center; gap: var(--s-1); font-size: var(--fs-sm); font-weight: 600; min-height: 44px; }
+.map-link .od-icon { --od-icon-size: 18px; }
+
+/* ============ Regolamento ============ */
+.rules-layout { display: grid; gap: var(--s-6); grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1024px) { .rules-layout { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } .rules-aside { position: sticky; top: calc(var(--header-h) + var(--s-6)); } }
+.rules-list { display: grid; gap: var(--s-2); }
+.rule { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.rule summary { display: flex; align-items: center; gap: var(--s-4); min-height: 56px; padding: var(--s-3) var(--s-4); cursor: pointer; list-style: none; }
+.rule summary::-webkit-details-marker { display: none; }
+.rule .art { flex: none; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); color: var(--court); min-width: 64px; }
+.rule .rule-title { flex: 1 1 0; min-width: 0; font-weight: 600; line-height: 1.35; }
+.rule .chev { --od-icon-size: 20px; color: var(--muted); transition: transform var(--dur-fast) var(--ease-out); }
+.rule[open] .chev { transform: rotate(180deg); }
+.rule[open] { border-color: var(--navy-900); }
+.rule .rule-body { padding: 0 var(--s-4) var(--s-5) calc(var(--s-4) + 64px + var(--s-4)); color: var(--muted); max-width: 75ch; }
+@media (max-width: 599px) { .rule .rule-body { padding-left: var(--s-4); } }
+@media (hover: hover) { .rule summary:hover .rule-title { color: var(--court); } }
+mark { background: var(--ball); color: var(--navy-900); padding: 0 2px; border-radius: 2px; }
+.aside-card { padding: var(--s-5); display: grid; gap: var(--s-4); }
+.aside-card h2 { font-size: var(--fs-lg); }
+.keydates { display: grid; gap: var(--s-3); }
+.keydates li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-3); align-items: start; }
+.keydates .od-icon { --od-icon-size: 20px; color: var(--court); margin-top: 2px; }
+.keydates .od-field span:first-child { font-weight: 600; }
+.keydates .od-field span:last-child { font-size: var(--fs-sm); color: var(--muted); }
+
+/* ============ Media ============ */
+.media-grid { display: grid; gap: var(--s-6); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) { .media-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
+.photo-card { overflow: hidden; }
+.photo-card img { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 1200; }
+.photo-card .cap { padding: var(--s-4) var(--s-5); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); }
+.partner-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-6) var(--s-10); }
+
+/* ============ Documenti & contatti ============ */
+.docs-grid { display: grid; gap: var(--s-3); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 768px) { .docs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.doc { display: flex; align-items: center; gap: var(--s-4); padding: var(--s-4); color: var(--text); text-decoration: none; }
+.doc .doc-ico { flex: none; width: 48px; height: 48px; border-radius: var(--radius-sm); background: var(--court-tint); color: var(--court); display: flex; align-items: center; justify-content: center; }
+.doc .doc-ico .od-icon { --od-icon-size: 24px; }
+.doc .od-field span:first-child { font-weight: 600; }
+.doc .od-field span:last-child { font-size: var(--fs-sm); color: var(--muted); }
+.doc .dl { margin-left: auto; color: var(--court); --od-icon-size: 22px; }
+@media (hover: hover) { .doc:hover { border-color: var(--navy-900); color: var(--text); } }
+
+.contact-layout { display: grid; gap: var(--s-6); grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1024px) { .contact-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); } }
+.contact-list { display: grid; gap: var(--s-4); }
+.contact-item { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-3); }
+.contact-item .od-icon { --od-icon-size: 22px; color: var(--court); margin-top: 2px; }
+.contact-item .od-field span:first-child { font-size: var(--fs-sm); color: var(--muted); }
+.contact-item a { font-weight: 600; overflow-wrap: anywhere; }
+.form-grid { display: grid; gap: var(--s-5); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 600px) { .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .form-grid .full { grid-column: 1 / -1; } }
+.error-summary { border: 2px solid var(--error); background: var(--error-bg); border-radius: var(--radius); padding: var(--s-4); margin-bottom: var(--s-5); }
+.error-summary h3 { font-size: var(--fs-md); color: var(--error); }
+.error-summary ul { margin-top: var(--s-2); display: grid; gap: var(--s-1); padding-left: var(--s-5); list-style: disc; }
+.error-summary a { color: var(--error); font-weight: 600; }
+.form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); margin-top: var(--s-6); }
+.success-panel { display: grid; gap: var(--s-3); justify-items: start; padding: var(--s-6); background: var(--success-bg); border-radius: var(--radius); color: var(--success); }
+.success-panel .od-icon { --od-icon-size: 32px; }
+.success-panel h3 { font-size: var(--fs-xl); }
+.success-panel p { color: var(--text); }
+
+/* ============ Altro (mobile) ============ */
+.menu-list { display: grid; gap: var(--s-2); }
+.menu-item { display: flex; align-items: center; gap: var(--s-4); width: 100%; min-height: 64px; padding: var(--s-3) var(--s-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); text-align: left; color: var(--text); text-decoration: none; }
+.menu-item > .od-icon { --od-icon-size: 24px; color: var(--court); }
+.menu-item .od-field span:first-child { font-weight: 600; }
+.menu-item .od-field span:last-child { font-size: var(--fs-sm); color: var(--muted); }
+.menu-item .chev { margin-left: auto; --od-icon-size: 20px; color: var(--muted); }
+@media (hover: hover) { .menu-item:hover { border-color: var(--navy-900); color: var(--text); } }
+
+/* ============ Footer ============ */
+.site-footer { background: var(--navy-900); color: var(--on-dark-muted); padding: var(--s-12) 0 var(--s-8); font-size: var(--fs-sm); }
+.footer-grid { display: grid; gap: var(--s-8); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
+.footer-brand { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-2xl); text-transform: uppercase; color: var(--on-dark); line-height: 1; }
+.footer-brand span { color: var(--ball); }
+.site-footer h2 { font-size: var(--fs-sm); color: var(--on-dark); text-transform: uppercase; letter-spacing: .08em; margin-bottom: var(--s-3); }
+.site-footer a, .site-footer .link-btn { color: var(--on-dark); }
+.site-footer ul { display: grid; gap: var(--s-1); }
+.link-btn { background: none; border: 0; padding: var(--s-2) 0; text-decoration: underline; text-underline-offset: 3px; font-size: inherit; text-align: left; min-height: 44px; }
+@media (hover: hover) { .site-footer a:hover, .site-footer .link-btn:hover { color: var(--ball); } }
+.footer-bottom { margin-top: var(--s-10); padding-top: var(--s-6); border-top: 1px solid rgba(255,255,255,.14); display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); justify-content: space-between; }
+
+/* ============ Link squadra ============ */
+.team-link {
+  background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; text-align: inherit;
+  text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; text-decoration-thickness: 1px;
+  overflow-wrap: anywhere;
+}
+@media (hover: hover) { .team-link:hover { color: var(--court); text-decoration-color: currentColor; } }
+
+/* ============ Scheda squadra ============ */
+.team-hero { background: var(--navy-900); color: var(--on-dark); }
+.team-hero .container { padding-block: var(--s-4) var(--s-8); }
+.back-btn { margin-left: calc(-1 * var(--s-2)); color: var(--on-dark); }
+@media (hover: hover) { .back-btn:hover { background: rgba(255,255,255,.08); color: var(--on-dark); } }
+.team-hero-main { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-4) var(--s-6); align-items: center; margin-top: var(--s-4); }
+.team-hero-main .logo-box { width: 88px; height: 88px; padding: var(--s-2); border: 0; }
+@media (min-width: 768px) { .team-hero-main .logo-box { width: 120px; height: 120px; } }
+.team-hero h1 { font-size: clamp(2rem, 3vw + 1rem, 3.5rem); line-height: 1; overflow-wrap: anywhere; }
+.team-hero h1:focus { outline: none; }
+.team-hero .club-line { color: var(--on-dark-muted); font-size: var(--fs-sm); }
+.team-hero .od-cluster { --od-gap: var(--s-3); margin-top: var(--s-6); }
+.team-hero .star-btn { color: var(--on-dark-muted); border: 1px solid rgba(255,255,255,.4); }
+.team-hero .star-btn[aria-pressed="true"] { color: var(--ball); border-color: var(--ball); }
+@media (hover: hover) { .team-hero .star-btn:hover { background: rgba(255,255,255,.08); color: var(--on-dark); } }
+
+.team-stats { --od-cols: 3; --od-gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; margin-top: var(--s-8); }
+@media (min-width: 768px) { .team-stats { --od-cols: 6; } }
+.team-stats .od-stat { background: var(--surface); padding: var(--s-4); text-align: center; }
+.team-stats .od-stat span:first-child { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-2xl); line-height: 1; white-space: nowrap; }
+.team-stats .od-stat span:last-child { font-size: var(--fs-xs); color: var(--muted); }
+.team-stats .od-stat.is-key span:first-child { color: var(--court); }
+
+.team-layout { display: grid; gap: var(--s-8); grid-template-columns: minmax(0, 1fr); padding: var(--s-8) 0 var(--s-12); align-items: start; }
+@media (min-width: 1024px) { .team-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.team-layout h2 { font-size: var(--fs-xl); }
+.team-section-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: var(--s-2) var(--s-4); margin-bottom: var(--s-4); }
+
+.tmatch-list { display: grid; gap: var(--s-2); }
+.tmatch { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; align-items: center; gap: var(--s-3); padding: var(--s-3) var(--s-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.tmatch.is-next { border-color: var(--navy-900); box-shadow: inset 4px 0 0 var(--ball); }
+.tmatch .g { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xl); line-height: 1; color: var(--navy-900); }
+.tmatch .od-field span:first-child { font-weight: 600; line-height: 1.35; }
+.tmatch .od-field span:last-child { font-size: var(--fs-sm); color: var(--muted); }
+.tmatch .res { display: grid; justify-items: end; gap: var(--s-1); }
+.tmatch .res .score { font-size: var(--fs-lg); }
+.badge-win { background: var(--win-bg); color: var(--win-ink); }
+.badge-loss { background: var(--loss-bg); color: var(--loss-ink); }
+.badge-draw { background: var(--draw-bg); color: var(--silver-ink); }
+
+.roster { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; table-layout: fixed; }
+.roster th { text-align: left; font-size: var(--fs-xs); font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; padding: var(--s-3) var(--s-4); background: var(--bg); border-bottom: 1px solid var(--line); }
+.roster td { padding: var(--s-3) var(--s-4); border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.roster tr:last-child td { border-bottom: 0; }
+.roster .r-num { width: 48px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.roster .r-cat { width: 112px; }
+.roster .cap { display: block; font-size: var(--fs-xs); font-weight: 600; color: var(--court); }
+.roster-rules { display: grid; gap: var(--s-2); margin-top: var(--s-4); text-align: left; font-size: var(--fs-sm); color: var(--muted); }
+.roster-rules li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-2); }
+.roster-rules .od-icon { --od-icon-size: 18px; color: var(--court); margin-top: 3px; }
+.sibling-teams { display: grid; gap: var(--s-2); margin-top: var(--s-3); }
+
+/* ============ Dialogs ============ */
+dialog.modal {
+  width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 32px);
+  padding: 0; border: 0; border-radius: var(--radius-lg); background: var(--surface); color: var(--text);
+  box-shadow: 0 24px 64px rgba(10,26,48,.3);
+}
+dialog.modal[open] { animation: dlg-in var(--dur) var(--ease-out); }
+dialog.modal::backdrop { background: rgba(10, 26, 48, .6); }
+@keyframes dlg-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.modal-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-4) var(--s-4) var(--s-4) var(--s-6); border-bottom: 1px solid var(--line); }
+.modal-head h2 { font-size: var(--fs-xl); }
+.modal-body { padding: var(--s-6); display: grid; gap: var(--s-5); }
+.modal-foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--s-3); padding: 0 var(--s-6) var(--s-6); }
+.notice { display: flex; gap: var(--s-3); padding: var(--s-4); border-radius: var(--radius); background: var(--court-tint); color: var(--navy-900); font-size: var(--fs-sm); }
+.notice .od-icon { --od-icon-size: 20px; margin-top: 2px; color: var(--court); }
+
+/* Toast */
+.toast {
+  position: fixed; left: 50%; bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + var(--s-4)); z-index: 60;
+  transform: translateX(-50%); max-width: calc(100vw - 32px);
+  background: var(--navy-900); color: var(--on-dark); padding: var(--s-3) var(--s-5); border-radius: var(--radius);
+  font-weight: 500; font-size: var(--fs-sm); box-shadow: var(--shadow);
+  animation: toast-in var(--dur) var(--ease-out);
+}
+@media (min-width: 1024px) { .toast { bottom: var(--s-6); } }
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Vai al contenuto</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <button class="brand" type="button" data-go="home" aria-label="Coppa dei Club – vai alla home">
+      <img src="assets/logo-coppa.png" width="160" height="27" alt="Coppa dei Club">
+      <span class="brand-meta">Umbria<br>2026/27</span>
+    </button>
+    <nav class="main-nav" aria-label="Navigazione principale">
+      <button type="button" data-go="home">Home</button>
+      <button type="button" data-go="gare">Gare e classifiche</button>
+      <button type="button" data-go="circoli">Circoli</button>
+      <button type="button" data-go="regolamento">Regolamento</button>
+      <button type="button" data-go="media">Foto e stampa</button>
+      <button type="button" data-go="documenti">Documenti e contatti</button>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-outline" type="button" data-open-login aria-label="Area gestori">
+        <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span class="header-login-label">Area gestori</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= HOME ================= -->
+  <section class="view" data-view="home" aria-labelledby="home-title">
+    <div class="hero on-dark">
+      <div class="hero-bg" aria-hidden="true"><img src="assets/hero-padel.jpg" width="627" height="350" alt=""></div>
+      <div class="container hero-inner">
+        <p class="eyebrow">Campionato regionale padel MSP Italia · Umbria</p>
+        <h1 class="display" id="home-title" tabindex="-1">Coppa dei Club <span class="hl">2026/27</span></h1>
+        <p class="lead">Turni, accoppiamenti, risultati e classifiche dei gironi Gold e Silver, sempre aggiornati per giocatori e circoli.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" type="button" data-go="gare">
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            <span class="btn-label">Calendari e classifiche</span>
+          </button>
+          <button class="btn btn-ghost-dark" type="button" data-go="circoli">Trova il tuo circolo</button>
+        </div>
+        <div class="od-grid hero-stats">
+          <div class="od-stat"><span class="stat-num">12ª</span><span class="stat-label">edizione</span></div>
+          <div class="od-stat"><span class="stat-num">12</span><span class="stat-label">gironi ufficiali</span></div>
+          <div class="od-stat"><span class="stat-num">93</span><span class="stat-label">squadre</span></div>
+          <div class="od-stat"><span class="stat-num">40</span><span class="stat-label">circoli</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-strip">
+      <div class="container">
+        <div class="od-field">
+          <span>Prossima giornata · Gold girone A</span>
+          <strong class="od-nowrap">3ª giornata · 7–8 novembre</strong>
+        </div>
+        <button class="btn btn-secondary" type="button" data-goto-girone="G-A" data-tab="calendario">Vedi il calendario</button>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="home-grid">
+        <div>
+          <div class="section-head">
+            <div class="od-stack">
+              <p class="eyebrow">Gold · Girone A · 2ª giornata</p>
+              <h2>Ultimi risultati</h2>
+            </div>
+            <button class="btn btn-text" type="button" data-goto-girone="G-A" data-tab="risultati">
+              <span class="btn-label">Tutti i risultati</span>
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+          <div class="results-list" id="home-results"></div>
+        </div>
+        <aside class="myteam on-dark" id="myteam" aria-labelledby="myteam-title"></aside>
+      </div>
+    </div>
+
+    <div class="container section" style="padding-top:0">
+      <div class="section-head">
+        <div class="od-stack">
+          <p class="eyebrow">Due serie, dodici gironi</p>
+          <h2>Scegli il tuo girone</h2>
+        </div>
+      </div>
+      <div class="series-grid">
+        <div class="card series-card">
+          <div class="od-row">
+            <img class="series-logo" src="assets/logos/girone-gold.png" width="320" height="115" alt="Serie Gold">
+            <span class="badge badge-gold">Serie Gold</span>
+          </div>
+          <div class="series-facts">
+            <div class="od-stat"><span>5</span><span>gironi</span></div>
+            <div class="od-stat"><span>37</span><span>squadre</span></div>
+          </div>
+          <div class="girone-links" data-series-links="G"></div>
+        </div>
+        <div class="card series-card silver">
+          <div class="od-row">
+            <img class="series-logo" src="assets/logos/girone-silver.png" width="320" height="111" alt="Serie Silver">
+            <span class="badge badge-silver">Serie Silver</span>
+          </div>
+          <div class="series-facts">
+            <div class="od-stat"><span>7</span><span>gironi</span></div>
+            <div class="od-stat"><span>56</span><span>squadre</span></div>
+          </div>
+          <div class="girone-links" data-series-links="S"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section" style="padding-top:0">
+      <div class="section-head">
+        <div class="od-stack">
+          <p class="eyebrow">Rassegna stampa e video</p>
+          <h2>Dicono di noi</h2>
+        </div>
+        <button class="btn btn-text" type="button" data-go="media">
+          <span class="btn-label">Foto e stampa</span>
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="news-grid" data-news></div>
+    </div>
+
+    <div class="sponsors section-tight">
+      <div class="container">
+        <div class="sponsor-group">
+          <p class="eyebrow">Sponsor principali</p>
+          <div class="sponsor-row">
+            <img src="assets/sponsor/bartoccini-gioiellerie.png" width="480" height="249" style="width:144px" alt="Bartoccini Gioielleria, dal 1964">
+            <img src="assets/sponsor/palomba-honda.png" width="480" height="102" style="width:220px" alt="F.lli Palomba – Honda Rental Royal">
+          </div>
+        </div>
+        <div class="sponsor-group">
+          <p class="eyebrow">Media partner</p>
+          <div class="sponsor-row">
+            <img src="assets/logos/ternitoday.png" width="300" height="47" style="width:150px" alt="TerniToday">
+            <img src="assets/logos/perugiatoday.png" width="320" height="42" style="width:160px" alt="PerugiaToday">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GARE ================= -->
+  <section class="view" data-view="gare" aria-labelledby="gare-title" hidden>
+    <div class="container">
+      <div class="view-head">
+        <p class="eyebrow">Stagione 2026/27</p>
+        <h1 class="display" id="gare-title" tabindex="-1">Gare e classifiche</h1>
+      </div>
+      <div class="controls">
+        <div class="segmented" role="group" aria-label="Serie">
+          <button type="button" data-series="G" aria-pressed="true"><span class="dot" aria-hidden="true"></span>Gold</button>
+          <button type="button" data-series="S" aria-pressed="false"><span class="dot silver" aria-hidden="true"></span>Silver</button>
+        </div>
+        <div class="od-rail girone-rail" role="group" aria-label="Girone" id="girone-rail"></div>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Contenuti del girone">
+        <button type="button" role="tab" id="tab-classifica" aria-controls="panel" data-tab="classifica" aria-selected="true">Classifica</button>
+        <button type="button" role="tab" id="tab-risultati" aria-controls="panel" data-tab="risultati" aria-selected="false" tabindex="-1">Risultati</button>
+        <button type="button" role="tab" id="tab-calendario" aria-controls="panel" data-tab="calendario" aria-selected="false" tabindex="-1">Calendario</button>
+        <button type="button" role="tab" id="tab-squadre" aria-controls="panel" data-tab="squadre" aria-selected="false" tabindex="-1">Squadre</button>
+      </div>
+      <div class="tabpanel" role="tabpanel" id="panel" aria-labelledby="tab-classifica"></div>
+    </div>
+  </section>
+
+  <!-- ================= CIRCOLI ================= -->
+  <section class="view" data-view="circoli" aria-labelledby="circoli-title" hidden>
+    <div class="container">
+      <div class="view-head">
+        <p class="eyebrow">40 circoli in Umbria e dintorni</p>
+        <h1 class="display" id="circoli-title" tabindex="-1">Circoli</h1>
+        <p class="lead">Cerca un circolo per nome, città o squadra. Tocca una squadra per vedere il suo girone.</p>
+      </div>
+      <div class="filter-bar">
+        <div class="field">
+          <label for="club-search">Cerca</label>
+          <div class="search-wrap">
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="input" id="club-search" type="search" placeholder="Es. Terni, Ternana, Mariquita" autocomplete="off">
+            <button class="icon-btn clear" type="button" data-clear="club-search" aria-label="Cancella ricerca" hidden>
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="label" id="club-filter-label">Serie</span>
+          <div class="segmented" role="group" aria-labelledby="club-filter-label" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+            <button type="button" data-club-filter="all" aria-pressed="true">Tutte</button>
+            <button type="button" data-club-filter="G" aria-pressed="false"><span class="dot" aria-hidden="true"></span>Gold</button>
+            <button type="button" data-club-filter="S" aria-pressed="false"><span class="dot silver" aria-hidden="true"></span>Silver</button>
+          </div>
+        </div>
+      </div>
+      <p class="result-count" id="club-count" aria-live="polite"></p>
+      <div class="club-grid" id="club-grid"></div>
+      <div class="card empty" id="club-empty" hidden>
+        <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <h3>Nessun circolo trovato</h3>
+        <p>Prova con il nome della città o di una squadra, oppure mostra tutte le serie.</p>
+        <button class="btn btn-outline" type="button" data-reset-clubs>Azzera ricerca</button>
+      </div>
+      <div style="height:var(--s-12)"></div>
+    </div>
+  </section>
+
+  <!-- ================= REGOLAMENTO ================= -->
+  <section class="view" data-view="regolamento" aria-labelledby="rules-title" hidden>
+    <div class="container">
+      <div class="view-head">
+        <p class="eyebrow">18 articoli · stagione 2026/27</p>
+        <h1 class="display" id="rules-title" tabindex="-1">Regolamento</h1>
+        <p class="lead">La sintesi di ogni articolo, consultabile da telefono. Il testo completo che fa fede è nel PDF ufficiale.</p>
+      </div>
+      <div class="rules-layout">
+        <div>
+          <div class="field">
+            <label for="rule-search">Cerca nel regolamento</label>
+            <div class="search-wrap">
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input class="input" id="rule-search" type="search" placeholder="Es. rinvio, formazione, ricorsi" autocomplete="off">
+              <button class="icon-btn clear" type="button" data-clear="rule-search" aria-label="Cancella ricerca" hidden>
+                <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+              </button>
+            </div>
+          </div>
+          <p class="result-count" id="rule-count" aria-live="polite"></p>
+          <div class="rules-list" id="rules-list"></div>
+          <div class="card empty" id="rule-empty" hidden>
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg>
+            <h3>Nessun articolo contiene questa parola</h3>
+            <p>Prova un termine più generico, oppure consulta il PDF completo.</p>
+            <button class="btn btn-outline" type="button" data-clear-rules>Mostra tutti gli articoli</button>
+          </div>
+        </div>
+        <aside class="rules-aside od-stack" style="--od-gap:var(--s-4)">
+          <div class="card aside-card">
+            <h2>Come si assegnano i punti</h2>
+            <ul class="points-list" style="grid-template-columns:minmax(0,1fr)">
+              <li><span class="score">4<span class="sep">–</span>0</span><span>3 punti a chi vince</span></li>
+              <li><span class="score">3<span class="sep">–</span>1</span><span>2 punti a chi vince</span></li>
+              <li><span class="score">2<span class="sep">–</span>2</span><span>1 punto per squadra</span></li>
+            </ul>
+            <p class="small muted">A parità di punti conta la differenza incontri.</p>
+          </div>
+          <div class="card aside-card">
+            <h2>Date chiave</h2>
+            <ul class="keydates">
+              <li>
+                <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                <div class="od-field"><span>Inizio campionato</span><span>Secondo weekend di ottobre 2026</span></div>
+              </li>
+              <li>
+                <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+                <div class="od-field"><span>Finali regionali</span><span>Indicativamente fine maggio 2027</span></div>
+              </li>
+            </ul>
+            <a class="btn btn-secondary" href="https://umbriacoppadeiclub.it/regolamento-2026-27.pdf" target="_blank" rel="noopener">
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+              <span class="btn-label">Scarica il PDF completo</span>
+            </a>
+          </div>
+        </aside>
+      </div>
+      <div style="height:var(--s-12)"></div>
+    </div>
+  </section>
+
+  <!-- ================= MEDIA ================= -->
+  <section class="view" data-view="media" aria-labelledby="media-title" hidden>
+    <div class="container">
+      <div class="view-head">
+        <p class="eyebrow">Galleria, stampa e video</p>
+        <h1 class="display" id="media-title" tabindex="-1">Foto e stampa</h1>
+      </div>
+      <div class="media-grid">
+        <div class="card photo-card">
+          <img src="assets/teams/hangar-padel-orvieto.jpg" width="1600" height="1200" alt="Foto di squadra dell'Hangar Padel Orvieto, Serie Gold girone A" loading="lazy">
+          <div class="cap">
+            <div class="od-field"><span style="font-weight:600">Hangar Padel Orvieto</span><span class="small muted">Serie Gold · Girone A</span></div>
+            <a class="btn btn-outline" href="https://umbriacoppadeiclub.it/galleria" target="_blank" rel="noopener">
+              <span class="btn-label">Galleria completa</span>
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="od-stack" style="--od-gap:var(--s-4)">
+          <h2 style="font-size:var(--fs-xl)">Rassegna stampa</h2>
+          <div class="od-stack" style="--od-gap:var(--s-3)" data-news="press"></div>
+          <a class="btn btn-text" style="justify-self:start;align-self:flex-start" href="https://umbriacoppadeiclub.it/rassegna-stampa" target="_blank" rel="noopener">
+            <span class="btn-label">Archivio rassegna stampa</span>
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="section-tight">
+        <h2 style="font-size:var(--fs-xl);margin-bottom:var(--s-4)">Video</h2>
+        <div style="max-width:480px" data-news="video"></div>
+      </div>
+      <div class="section-tight" style="padding-top:0">
+        <p class="eyebrow" style="margin-bottom:var(--s-4)">Media partner</p>
+        <div class="partner-row">
+          <img src="assets/logos/ternitoday.png" width="300" height="47" style="width:150px;height:auto" alt="TerniToday">
+          <img src="assets/logos/perugiatoday.png" width="320" height="42" style="width:160px;height:auto" alt="PerugiaToday">
+          <img src="assets/logos/noi-sport.png" width="320" height="238" style="width:72px;height:auto" alt="Noi Sport">
+        </div>
+      </div>
+      <div style="height:var(--s-8)"></div>
+    </div>
+  </section>
+
+  <!-- ================= DOCUMENTI & CONTATTI ================= -->
+  <section class="view" data-view="documenti" aria-labelledby="docs-title" hidden>
+    <div class="container">
+      <div class="view-head">
+        <p class="eyebrow">Modulistica e segreteria</p>
+        <h1 class="display" id="docs-title" tabindex="-1">Documenti e contatti</h1>
+      </div>
+      <h2 style="font-size:var(--fs-xl);margin-bottom:var(--s-4)">Moduli da scaricare</h2>
+      <div class="docs-grid" id="docs-grid"></div>
+
+      <div class="section">
+        <div class="contact-layout">
+          <div class="card card-pad od-stack" style="--od-gap:var(--s-5)">
+            <h2 style="font-size:var(--fs-xl)">Contatti</h2>
+            <ul class="contact-list">
+              <li class="contact-item">
+                <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1"/></svg>
+                <div class="od-field"><span>Segreteria generale</span><a href="tel:+393510262959" class="od-nowrap">351 026 2959</a></div>
+              </li>
+              <li class="contact-item">
+                <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                <div class="od-field"><span>Referti, ricorsi e iscrizioni</span><a href="mailto:coppadeiclubumbria@gmail.com">coppadeiclubumbria@gmail.com</a></div>
+              </li>
+              <li class="contact-item">
+                <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                <div class="od-field"><span>Segreteria Coppa dei Club</span><a href="mailto:coppadeiclubmspumbria@gmail.com">coppadeiclubmspumbria@gmail.com</a></div>
+              </li>
+            </ul>
+            <div class="notice">
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+              <p>Il referto della gara, firmato dai due capitani, va inviato via email con la foto delle squadre (Art. 9).</p>
+            </div>
+          </div>
+
+          <div class="card card-pad" id="support">
+            <h2 style="font-size:var(--fs-xl)">Assistenza gestori e club</h2>
+            <p class="muted" style="margin:var(--s-2) 0 var(--s-6)">Richiedi le credenziali dell'area gestori o segnala un problema. I campi con <span style="color:var(--error)">*</span> sono obbligatori.</p>
+            <div id="support-form-wrap">
+              <div class="error-summary" id="support-summary" tabindex="-1" role="alert" hidden>
+                <h3>Controlla questi campi</h3>
+                <ul id="support-summary-list"></ul>
+              </div>
+              <div class="form-grid" id="support-form">
+                <div class="field">
+                  <label for="f-club">Circolo <span class="req" aria-hidden="true">*</span></label>
+                  <select class="select" id="f-club" aria-describedby="f-club-err" required></select>
+                  <p class="field-error" id="f-club-err" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="f-topic">Argomento <span class="req" aria-hidden="true">*</span></label>
+                  <select class="select" id="f-topic" aria-describedby="f-topic-err" required>
+                    <option value="">Seleziona…</option>
+                    <option>Credenziali area gestori</option>
+                    <option>Referti e risultati</option>
+                    <option>Iscrizioni e liste giocatori</option>
+                    <option>Rinvio di una gara</option>
+                    <option>Altro</option>
+                  </select>
+                  <p class="field-error" id="f-topic-err" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="f-name">Nome e cognome del referente <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" id="f-name" type="text" autocomplete="name" aria-describedby="f-name-err" required>
+                  <p class="field-error" id="f-name-err" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
+                  <input class="input" id="f-email" type="email" autocomplete="email" inputmode="email" aria-describedby="f-email-err" required>
+                  <p class="field-error" id="f-email-err" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="f-phone">Telefono</label>
+                  <input class="input" id="f-phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="f-phone-hint f-phone-err">
+                  <span class="hint" id="f-phone-hint">Facoltativo: utile per essere ricontattati velocemente.</span>
+                  <p class="field-error" id="f-phone-err" hidden></p>
+                </div>
+                <div class="field full">
+                  <label for="f-msg">Messaggio <span class="req" aria-hidden="true">*</span></label>
+                  <textarea class="textarea" id="f-msg" aria-describedby="f-msg-err" required></textarea>
+                  <p class="field-error" id="f-msg-err" hidden></p>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-secondary" type="button" id="support-submit"><span class="btn-label">Invia richiesta</span></button>
+                <p class="small muted">Rispondiamo di solito entro due giorni lavorativi.</p>
+              </div>
+            </div>
+            <div class="success-panel" id="support-success" tabindex="-1" hidden>
+              <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
+              <h3>Richiesta inviata</h3>
+              <p id="support-success-text"></p>
+              <button class="btn btn-outline" type="button" id="support-again">Invia un'altra richiesta</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SCHEDA SQUADRA ================= -->
+  <section class="view" data-view="squadra" aria-labelledby="team-page-title" hidden>
+    <div id="team-page"></div>
+  </section>
+
+  <!-- ================= ALTRO (mobile) ================= -->
+  <section class="view" data-view="altro" aria-labelledby="altro-title" hidden>
+    <div class="container">
+      <div class="view-head">
+        <h1 class="display" id="altro-title" tabindex="-1">Altro</h1>
+      </div>
+      <div class="menu-list">
+        <button class="menu-item" type="button" data-go="media">
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/></svg>
+          <div class="od-field"><span>Foto e stampa</span><span>Galleria, articoli e video</span></div>
+          <svg class="od-icon chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <button class="menu-item" type="button" data-go="documenti">
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+          <div class="od-field"><span>Documenti e contatti</span><span>Moduli, segreteria e assistenza</span></div>
+          <svg class="od-icon chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <button class="menu-item" type="button" data-open-login>
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          <div class="od-field"><span>Area gestori</span><span>Accesso riservato ai circoli</span></div>
+          <svg class="od-icon chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <button class="menu-item" type="button" data-open-team>
+          <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>
+          <div class="od-field"><span>La mia squadra</span><span id="altro-team-sub">Scegli la squadra da seguire</span></div>
+          <svg class="od-icon chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div style="height:var(--s-12)"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer on-dark">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="od-stack" style="--od-gap:var(--s-3)">
+        <p class="footer-brand">Coppa dei Club <span>Umbria</span></p>
+        <p style="max-width:44ch">Campionato regionale padel MSP Italia 2026/27 · 12ª edizione.</p>
+      </div>
+      <div>
+        <h2>Sezioni</h2>
+        <ul>
+          <li><button class="link-btn" type="button" data-go="gare">Gare e classifiche</button></li>
+          <li><button class="link-btn" type="button" data-go="circoli">Circoli</button></li>
+          <li><button class="link-btn" type="button" data-go="regolamento">Regolamento</button></li>
+          <li><button class="link-btn" type="button" data-go="documenti">Documenti e contatti</button></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Segreteria</h2>
+        <ul>
+          <li><a href="tel:+393510262959">351 026 2959</a></li>
+          <li><a href="mailto:coppadeiclubmspumbria@gmail.com" style="overflow-wrap:anywhere">coppadeiclubmspumbria@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Coppa dei Club · MSP Italia Umbria</p>
+      <button class="link-btn" type="button" data-open-login style="padding:0">Area gestori</button>
+    </div>
+  </div>
+</footer>
+
+<nav class="tabbar" aria-label="Navigazione rapida">
+  <ul>
+    <li><button type="button" data-go="home"><span class="tab-ind"><svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><span>Home</span></button></li>
+    <li><button type="button" data-go="gare"><span class="tab-ind"><svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span><span>Gare</span></button></li>
+    <li><button type="button" data-go="circoli"><span class="tab-ind"><svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span>Circoli</span></button></li>
+    <li><button type="button" data-go="regolamento"><span class="tab-ind"><svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M4 17a2 2 0 0 1 2-2h12M8 7h6M8 11h6"/></svg></span><span>Regole</span></button></li>
+    <li><button type="button" data-go="altro"><span class="tab-ind"><svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></span><span>Altro</span></button></li>
+  </ul>
+</nav>
+
+<!-- Dialog: area gestori -->
+<dialog class="modal" id="login-dialog" aria-labelledby="login-title">
+  <div class="modal-head">
+    <h2 id="login-title">Area gestori</h2>
+    <button class="icon-btn" type="button" data-close-dialog aria-label="Chiudi">
+      <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div id="login-form-wrap">
+    <div class="modal-body">
+      <p class="muted">Accesso riservato ai responsabili dei circoli per inserire referti e risultati.</p>
+      <div class="field">
+        <label for="l-email">Email <span class="req" aria-hidden="true">*</span></label>
+        <input class="input" id="l-email" type="email" autocomplete="username" inputmode="email" aria-describedby="l-email-err" required>
+        <p class="field-error" id="l-email-err" hidden></p>
+      </div>
+      <div class="field">
+        <label for="l-pass">Password <span class="req" aria-hidden="true">*</span></label>
+        <input class="input" id="l-pass" type="password" autocomplete="current-password" aria-describedby="l-pass-err" required>
+        <p class="field-error" id="l-pass-err" hidden></p>
+      </div>
+      <p class="small muted">Non hai le credenziali? <button class="btn-text link-btn" type="button" data-request-access style="padding:0;min-height:auto;color:var(--court)">Richiedile alla segreteria</button></p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" type="button" data-close-dialog>Annulla</button>
+      <button class="btn btn-secondary" type="button" id="login-submit"><span class="btn-label">Accedi</span></button>
+    </div>
+  </div>
+  <div id="login-done" hidden>
+    <div class="modal-body">
+      <div class="notice">
+        <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        <p id="login-done-text">Credenziali verificate. Nel sito definitivo da qui si apre il pannello per inserire referti e risultati.</p>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-secondary" type="button" data-close-dialog>Chiudi</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- Dialog: la mia squadra -->
+<dialog class="modal" id="team-dialog" aria-labelledby="team-title">
+  <div class="modal-head">
+    <h2 id="team-title">La mia squadra</h2>
+    <button class="icon-btn" type="button" data-close-dialog aria-label="Chiudi">
+      <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="muted">La tua squadra verrà evidenziata in classifiche e risultati e mostrata in home.</p>
+    <div class="field">
+      <label for="team-select">Squadra</label>
+      <select class="select" id="team-select"></select>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-text" type="button" id="team-remove" hidden>Non seguire più</button>
+    <button class="btn btn-outline" type="button" data-close-dialog>Annulla</button>
+    <button class="btn btn-secondary" type="button" id="team-save">Salva</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ---------------- Dati ---------------- */
+  // [nome circolo, città, indirizzo, logo, [[squadra, serie G/S, girone]]]
+  const CLUBS_RAW = [
+    ['3G', 'Perugia', 'Via Guido Rossa 32', '3g', [['3G Azzurro','G','D'],['3G Amaranto','S','E'],['3G Verde','S','F']]],
+    ['Assisi Bastia Padel', 'Bastia Umbra (PG)', 'Via Francesco Giontella', 'assisi-bastia-padel', [['Assisi Bastia Green','G','C'],['Assisi Bastia Diamond','G','D'],['Assisi Bastia Platinum','G','E'],['Assisi Bastia Blu','S','E'],['Assisi Bastia Black','S','F']]],
+    ['Bandeja Padel Club', 'Magione (PG)', 'Via Santa Giuliana 82', 'bandeja-padel-club', [['Bandeja Padel Club','G','E']]],
+    ['Circolo Padel Spoleto', 'Spoleto', 'Viale dei Cappuccini 1', 'circolo-padel-spoleto', [['Circolo Padel Spoleto','S','B']]],
+    ['City Padel', 'Foligno (PG)', 'Via Monte Silio 7', 'city-padel', [['City Padel Green','S','B'],['City Padel Blue','S','C']]],
+    ['Collescipoli Sporting Club', 'Terni', 'Strada di Collescipoli 117/M', 'collescipoli-sporting-club', [['Collescipoli Sporting Club','G','A']]],
+    ['Cortona Padel 2.0', 'Terontola (AR)', 'Viale Primo Maggio 53', 'cortona-padel-2-0', [['Cortona Padel 2.0','S','E']]],
+    ['Evergreen Perugia Padel', 'Perugia', 'Via Pontani 4 (c/o Gryphus Sporting Club)', 'evergreen-perugia-padel', [['Evergreen Perugia Padel','S','F']]],
+    ['Family Padel Club', 'Città di Castello (PG)', 'Località Garavelle', 'family-padel-club', [['Family Padel Black','G','C'],['Family Padel White','G','D'],['Family Padel Borgo','S','G']]],
+    ['Flea Padel Arena', 'Gualdo Tadino (PG)', 'Via Fratelli Cairoli', 'flea-padel-arena', [['Flea Padel Verde','G','E'],['Flea Padel Rossa','S','G']]],
+    ['Grata Loca', 'Marsciano (PG)', 'Località Cerro', 'grata-loca', [['Grata Loca Blu','G','E'],['Grata Loca Verde','S','D']]],
+    ['Green Padel', 'Perugia', 'Via Bonaventura Tecchi 50', 'padel-green-village', [['Parallelo 43','G','E'],['Todis San Marco','S','D'],['Iting','S','E'],['Benessere Capelli','S','F'],['Unipol Fanini Gubbiotti Ridolfi','S','G']]],
+    ['Gualdo Padel La Bandeja', 'Gualdo Tadino (PG)', 'Via Flaminia km 191', 'gualdo-padel-la-bandeja', [['Gualdo La Bandeja Giallo','G','C'],['Gualdo La Bandeja Nero','S','D']]],
+    ['Hangar Padel Orvieto', 'Orvieto', 'Strada Fontanelle di Bardano', 'hangar-padel-orvieto', [['Hangar Padel Orvieto','G','A']]],
+    ['Happy Village', 'Terni', 'Strada di Maratta Bassa 93', 'happy-village', [['Happy Village Retro','S','A'],['Padel Neo','S','A'],['Happy Village Blu','S','B']]],
+    ['Inside Padel', 'Spoleto', 'Via dei Tessili 17', 'inside-padel', [['Inside Padel White','G','B'],['Inside Padel Black','S','A'],['Inside Padel Oro','S','C']]],
+    ['King Padel', 'Trevi (PG)', 'Via Faustana', 'king-padel', [['King Padel','S','A']]],
+    ['La Romita', 'Terni', 'Strada della Romita 11', 'la-romita', [['La Romita Arancio','G','A'],['La Romita Azzurra','S','C']]],
+    ['Magione Padel Club', 'Magione (PG)', 'Via Consolini', 'magione-padel-club', [['Magione Padel Verde','S','E'],['Magione Padel Blu','S','G']]],
+    ['Mapepa', 'Spello (PG)', 'Via Navello 26', 'mapepa', [['Mapepa Green','G','B'],['Mapepa Blu','G','D'],['Mapepa White','S','G']]],
+    ['Mariquita', 'Deruta (PG)', 'Via Tiberina 131', 'chiquita-mariquita', [['Chiquita Mariquita','G','C'],['Mariquita Port Tres','S','D'],['Volee Mariquita','S','F']]],
+    ['Massa Martana Padel', 'Massa Martana (PG)', 'Via Lanari', 'massa-martana-padel', [['H2O Tecnoimpianti','G','B'],['Egizi Arredamenti','S','A']]],
+    ['MSP Happy Village', 'Terni', 'Strada di Maratta Bassa 93', 'happy-village', [['MSP Red Happy Village','G','A'],['MSP Black Happy Village','S','C']]],
+    ['Olympus', 'Perugia', 'Strada Santa Lucia 12A', 'olympus', [['Fratelli Palomba','G','D'],['Fitness Discount','S','E'],['Non Solo Pellet','S','F'],['Emporio Carta','S','G']]],
+    ['Padel Arena Fastweb', 'Torgiano (PG)', 'Via Ferriera', 'padel-arena-fastweb', [['Padel Arena Black','G','C'],['Padel Arena White','S','G']]],
+    ['Padel Factory', 'Gubbio', 'Via Velino 17', 'padel-factory', [['Padel Factory Gold','G','D'],['Padel Factory Silver','S','F']]],
+    ['Padel Gubbiano Cascia', 'Cascia (PG)', 'Viale Cavour (c/o Magrelli Active)', 'padel-gubbiano-cascia', [['Gubbiano Cascia Nero','G','B'],['Gubbiano Cascia Blu','S','A'],['Gubbiano Cascia Bianca','S','C']]],
+    ['Padel One', 'Perugia', 'Strada delle Fratte 3A', 'padel-one', [['Padel One Verde','G','C'],['Padel One Blu','S','D']]],
+    ['Palapadel', 'Terni', 'Via Maestri del Lavoro 4', 'palapadel', [['Pala Padel Star','G','A'],['Palapadel Wall','S','A'],['Palapadel Smash','S','B'],['Palapadel Drops','S','C']]],
+    ['Panoramic Padel Terni', 'Terni', 'Via del Gioglio 31', 'panoramic-padel-terni', [['Panoramic Padel Terni','S','B']]],
+    ['Podium', 'Spoleto', 'Via Pasquale Laureti', 'podium', [['Podium Gold','G','B']]],
+    ['Pro Padel', 'Perugia', 'Via A. Volta 88', 'pro-padel', [['Pro Padel Black','G','C'],['Pro Padel Orange','G','E'],['Pro Padel Yellow','S','E'],['Propadel White','S','D']]],
+    ['Sparta Padel', 'Acquasparta (TR)', 'Strada di Nocicchia', 'sparta-padel', [['Sparta Padel Verde','G','B'],['Sparta Padel Rossa','S','B']]],
+    ['Sunset Sport Center', 'Castiglione del Lago (PG)', 'Viale Trappes 23', 'sunset-sport-center', [['Sunset Sport Center','S','D']]],
+    ['Ternana Padel', 'Terni', 'Via del Centenario 23', 'ternana-padel', [['Ternana Padel Blu','G','A'],['Ternana Padel Green','S','A'],['Ternana Padel Red','S','B'],['Ternana Padel White','S','C'],['Ternana Padel Black','S','C']]],
+    ['Thunder', 'Perugia', 'Via Fratelli Cairoli 7', 'thunder', [['Thunder Love 2026','G','D'],['Smash And Spritz','S','D'],['Thunder Boss','S','G']]],
+    ['Tiferno Padel', 'Città di Castello (PG)', "Via Sant'Ansano", 'tiferno-padel-nsc', [['TPA Monsters','G','E'],['Tiferno Padel Nsc','S','E']]],
+    ['Todi Padel Center', 'Todi', 'Voc. Palombaro 30E', 'todi-padel-center', [['Todi Padel Center Black','G','A'],['Todi Padel Center White','S','B']]],
+    ['Ventinella', 'Magione (PG)', 'Viale Magione 17A', 'ventinella', [['Ventinella White','G','D'],['Ventinella Blu','S','F']]],
+    ['Vertex', 'Foligno (PG)', 'Via Ezio Bartolomei 62/64', 'vertex', [['Vertex Horizon','G','B'],['Vertex Fusion','G','C']]]
+  ];
+
+  const SERIES = { G: { name: 'Gold', gironi: ['A','B','C','D','E'] }, S: { name: 'Silver', gironi: ['A','B','C','D','E','F','G'] } };
+
+  const clubs = CLUBS_RAW.map(([name, city, address, logo, teams], i) => ({
+    id: 'c' + i, name, city, address, logo: 'assets/logos/' + logo + '.png',
+    teams: teams.map(([tName, serie, girone]) => ({ name: tName, serie, girone, gid: serie + '-' + girone }))
+  }));
+  const teams = [];
+  clubs.forEach(c => c.teams.forEach(t => { t.club = c; t.id = slug(t.name); teams.push(t); }));
+  const teamById = new Map(teams.map(t => [t.id, t]));
+  const teamByName = new Map(teams.map(t => [t.name, t]));
+
+  // Gold girone A: dati pubblicati (classifica ufficiale; 1ª giornata ricostruita dalla classifica)
+  const GOLD_A = {
+    rounds: [
+      { n: 1, dates: '10–11 ottobre', status: 'played', noVenue: true, matches: [
+        { h: 'La Romita Arancio', a: 'Todi Padel Center Black', hs: 4, as: 0, meta: 'Orario non disponibile' },
+        { h: 'MSP Red Happy Village', a: 'Pala Padel Star', hs: 3, as: 1, meta: 'Orario non disponibile' },
+        { h: 'Ternana Padel Blu', a: 'Hangar Padel Orvieto', hs: 2, as: 2, meta: 'Orario non disponibile' }
+      ], rest: 'Collescipoli Sporting Club' },
+      { n: 2, dates: '24–25 ottobre', status: 'played', matches: [
+        { h: 'Ternana Padel Blu', a: 'Collescipoli Sporting Club', hs: 4, as: 0, meta: 'Sabato 24 ottobre · 14:30' },
+        { h: 'Pala Padel Star', a: 'Hangar Padel Orvieto', hs: 1, as: 3, meta: 'Sabato 24 ottobre · 15:00' },
+        { h: 'Todi Padel Center Black', a: 'MSP Red Happy Village', hs: 1, as: 3, meta: 'Domenica 25 ottobre · 09:30' }
+      ], rest: 'La Romita Arancio' },
+      { n: 3, dates: '7–8 novembre', status: 'next' },
+      { n: 4, dates: '14–15 novembre', status: 'upcoming' },
+      { n: 5, dates: '28–29 novembre', status: 'upcoming' },
+      { n: 6, dates: '12–13 dicembre', status: 'upcoming' },
+      { n: 7, dates: '19–20 dicembre', status: 'upcoming' }
+    ],
+    standings: [
+      ['MSP Red Happy Village', 2, 2, 0, 0, '6:2', 4],
+      ['Ternana Padel Blu', 2, 1, 1, 0, '6:2', 4],
+      ['La Romita Arancio', 1, 1, 0, 0, '4:0', 3],
+      ['Hangar Padel Orvieto', 2, 1, 1, 0, '5:3', 3],
+      ['Collescipoli Sporting Club', 1, 0, 0, 1, '0:4', 0],
+      ['Pala Padel Star', 2, 0, 0, 2, '2:6', 0],
+      ['Todi Padel Center Black', 2, 0, 0, 2, '1:7', 0]
+    ]
+  };
+  const GIRONE_DATA = { 'G-A': GOLD_A };
+
+  const RULES = [
+    ['1', 'Ammissione', "Possono iscriversi le squadre affiliate a MSP Italia con un campo disponibile e giocatori tesserati. Servono certificato medico, modulo di iscrizione e bonifico; la quota va da 170 € a 600 € in base al numero di squadre iscritte dal club."],
+    ['2', 'Limitazioni alla partecipazione dei giocatori', "Sono ammessi giocatori di 3ª, 4ª e 5ª categoria in squadre miste, con limiti per la 3ª categoria. Sono esclusi alcuni profili, come maestri e tecnici. Previste regole specifiche per giocatori con disabilità motoria e sanzioni per le irregolarità."],
+    ['2 bis', 'Regolamento per le Finali Nazionali', "Per le Finali Nazionali si applica il regolamento nazionale MSP Italia."],
+    ['3', 'Modalità di iscrizione e responsabilità del club', "Iscrizione entro il 10 settembre 2026. Le liste comprendono da 16 a 35 giocatori; ogni club tessera i propri atleti ed è responsabile della loro posizione."],
+    ['4', 'Composizione e gestione liste squadre', "Le squadre si iscrivono in Gold o Silver League e vengono poi ridistribuite nelle Cup. Le liste si modificano entro scadenze precise; i cambi di squadra sono ammessi solo durante la pausa natalizia."],
+    ['5', 'Formula di svolgimento del campionato', "Quota campo di 72 € a squadra. Prima fase a gironi geografici, seconda fase nelle Cup."],
+    ['6', 'Formula di svolgimento degli incontri', "Ogni giornata prevede quattro incontri: doppio maschile, doppio femminile, doppio maschile e doppio misto. Si gioca al meglio dei tre set, con golden point e tie-break secondo le regole specifiche."],
+    ['7', 'Doppio di spareggio in caso di parità', "Nelle gare a eliminazione diretta, in caso di parità si disputa un doppio maschile di spareggio con tempi precisi."],
+    ['8', 'Formula degli incontri individuali', "Servono almeno 6 giocatori presenti. Sono previste penalità per assenze non comunicate o incontri non schierati."],
+    ['9', 'Compilazione del foglio formazione', "Il capitano della squadra ospitante compila il foglio formazione unico, firmato da entrambi i capitani. Referto e foto vanno inviati via email."],
+    ['10', 'Accordo tra capitani', "Le modifiche sono possibili solo con accordo scritto tra i capitani; in mancanza, sconfitta 4-0 con penalità. I recuperi vanno giocati entro 30 giorni."],
+    ['11', 'Divise e abbigliamento', "Divise preferibilmente uguali con il logo del circolo. Sono ammessi gli sponsor tecnici."],
+    ['12', 'Giorni e orari degli incontri', "Gli incontri si giocano nel weekend indicato in calendario; le variazioni sono possibili solo con accordo tra le squadre."],
+    ['13', 'Calendario della competizione', "Inizio il secondo weekend di ottobre 2026; iscrizioni entro il 15 settembre 2026; finali regionali indicativamente a fine maggio 2027."],
+    ['14', "Obblighi dell'affiliato ospitante", "Il club ospitante mette a disposizione il campo, fornisce le palline, invia le foto e comunica eventuali rinvii."],
+    ['15', 'Validità degli incontri', "Gli incontri non sono validi se mancano requisiti come quota pagata, tesseramento o numero minimo di giocatori. I ricorsi vanno presentati entro 30 minuti via email."],
+    ['16', 'Rinvio', "Il rinvio è consentito solo per pioggia, impedimenti di ordine pubblico o accordo tra i capitani, con recupero entro 30 giorni."],
+    ['17', 'Giustizia sportiva e ricorsi', "Il Giudice Sportivo è nominato dal responsabile di settore. Sono previste tariffe per i ricorsi di primo e secondo grado."],
+    ['18', 'Conclusione', "Per tutto quanto non previsto si applicano le norme della federazione di riferimento."]
+  ];
+
+  const DOCS = [
+    ['Modulo di iscrizione', 'Per iscrivere la squadra al campionato', 'iscrizione.pdf'],
+    ['Elenco giocatori squadra', 'Rosa dei giocatori tesserati', 'elenco-giocatori-squadra.pdf'],
+    ['Formazione squadra · Ospitante', 'Foglio di schieramento del capitano di casa', 'formazione-squadra-ospitante.pdf'],
+    ['Formazione squadra · Ospite', 'Foglio di schieramento del capitano ospite', 'formazione-squadra-ospite.pdf']
+  ];
+
+  const PRESS = [
+    { src: 'assets/logos/ternitoday.png', w: 300, h: 47, alt: 'TerniToday', date: '27 ottobre 2026', title: 'Coppa dei Club Umbria: i risultati della seconda giornata', url: 'https://www.ternitoday.it/sport/altro/padel-coppa-club-umbria-risultati-seconda-giornata-campionato-24-25-ottobre-2026.html' },
+    { src: 'assets/logos/ternitoday.png', w: 300, h: 47, alt: 'TerniToday', date: '13 ottobre 2026', title: 'Coppa dei Club Umbria: com’è andata la prima giornata', url: 'https://www.ternitoday.it/sport/altro/padel-coppa-club-umbria-prima-giornata-edizione2026.html' }
+  ];
+  const VIDEO = { title: 'Noi Sport stag. 26/27 – 21 ottobre 2026', url: 'https://www.youtube.com/watch?v=7Z5xFLYZ53M', thumb: 'assets/media/video-noisport.jpg' };
+
+  /* ---------------- Utility ---------------- */
+  function slug(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
+  function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function norm(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const gidLabel = gid => { const [s, g] = gid.split('-'); return SERIES[s].name + ' · Girone ' + g; };
+
+  const ICON = {
+    star: '<svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>',
+    arrow: '<svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+    ext: '<svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+    pin: '<svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+    chevDown: '<svg class="od-icon chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>',
+    file: '<svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>',
+    download: '<svg class="od-icon dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
+    play: '<svg class="od-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
+    cal: '<svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+    clock: '<svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    alert: '<svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16h.01"/></svg>'
+  };
+
+  function logoBox(team, size) {
+    const s = size ? ` style="width:${size}px;height:${size}px"` : '';
+    return `<span class="logo-box"${s}><img src="${esc(team.club.logo)}" alt="" loading="lazy"></span>`;
+  }
+
+  /* ---------------- Storage (con fallback in memoria) ---------------- */
+  const memStore = {};
+  const store = {
+    get(k) { try { return window.localStorage.getItem(k); } catch (e) { return memStore[k] ?? null; } },
+    set(k, v) { try { window.localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } },
+    del(k) { try { window.localStorage.removeItem(k); } catch (e) { delete memStore[k]; } }
+  };
+
+  /* ---------------- Stato ---------------- */
+  const state = {
+    view: 'home',
+    series: 'G',
+    gid: 'G-A',
+    tab: 'classifica',
+    fav: null,
+    clubQuery: '',
+    clubFilter: 'all',
+    ruleQuery: '',
+    teamId: null,
+    returnView: 'gare',
+    returnTeam: null,
+    scroll: {}
+  };
+  const savedFav = store.get('cdc-fav');
+  if (savedFav && teamById.has(savedFav)) state.fav = savedFav;
+
+  /* ---------------- Toast ---------------- */
+  let toastTimer;
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.hidden = true; }, 2600);
+  }
+
+  /* ---------------- Navigazione ---------------- */
+  const VIEWS = ['home', 'gare', 'circoli', 'regolamento', 'media', 'documenti', 'altro', 'squadra'];
+  function go(view, opts = {}) {
+    if (!VIEWS.includes(view)) view = 'home';
+    if (view === 'squadra' && !teamById.has(state.teamId)) view = 'gare';
+    state.scroll[state.view] = window.scrollY;
+    state.view = view;
+    const navView = view === 'squadra' ? 'gare' : view;
+    $$('[data-view]').forEach(v => { v.hidden = v.dataset.view !== view; });
+    $$('[data-go]').forEach(b => {
+      const nav = b.closest('.main-nav, .tabbar');
+      if (!nav) return;
+      const active = b.dataset.go === navView || (nav.classList.contains('tabbar') && b.dataset.go === 'altro' && ['media', 'documenti', 'altro'].includes(view));
+      if (active) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+    if (view === 'gare') renderGare();
+    if (view === 'home') renderHome();
+    if (view === 'squadra') renderTeam();
+    const y = opts.keepScroll ? (state.scroll[view] || 0) : 0;
+    window.scrollTo({ top: y, behavior: 'instant' in window ? 'instant' : 'auto' });
+    if (!opts.silentFocus) {
+      const h = $(`[data-view="${view}"] h1`);
+      if (h) h.focus({ preventScroll: true });
+    }
+    try { history.replaceState(null, '', '#' + view); } catch (e) { /* sandbox: ignora */ }
+  }
+
+  document.addEventListener('click', e => {
+    const goBtn = e.target.closest('[data-go]');
+    if (goBtn) { e.preventDefault(); go(goBtn.dataset.go, { keepScroll: goBtn.closest('.main-nav, .tabbar') != null && goBtn.dataset.go !== state.view }); return; }
+    const gBtn = e.target.closest('[data-goto-girone]');
+    if (gBtn) { openGirone(gBtn.dataset.gotoGirone, gBtn.dataset.tab || 'classifica'); return; }
+    const favBtn = e.target.closest('[data-fav]');
+    if (favBtn) { toggleFav(favBtn.dataset.fav); return; }
+    const tBtn = e.target.closest('[data-team]');
+    if (tBtn) { openTeam(tBtn.dataset.team); return; }
+    if (e.target.closest('[data-team-back]')) { teamBack(); return; }
+    if (e.target.closest('[data-open-login]')) { openLogin(e.target.closest('[data-open-login]')); return; }
+    if (e.target.closest('[data-open-team]')) { openTeamDialog(e.target.closest('[data-open-team]')); return; }
+    const closeBtn = e.target.closest('[data-close-dialog]');
+    if (closeBtn) { closeBtn.closest('dialog').close(); return; }
+  });
+
+  function openGirone(gid, tab) {
+    state.gid = gid;
+    state.series = gid.split('-')[0];
+    state.tab = tab || 'classifica';
+    go('gare');
+  }
+
+  /* ---------------- Squadra preferita ---------------- */
+  function setFav(id) {
+    state.fav = id;
+    if (id) store.set('cdc-fav', id); else store.del('cdc-fav');
+    renderHome();
+    if (state.view === 'gare') renderPanel();
+    if (state.view === 'squadra') renderTeam();
+    renderAltroSub();
+  }
+  function toggleFav(id) {
+    const wasFav = state.fav === id;
+    const activeEl = document.activeElement;
+    const focusKey = activeEl && activeEl.dataset ? activeEl.dataset.fav : null;
+    setFav(wasFav ? null : id);
+    toast(wasFav ? 'Non segui più ' + teamById.get(id).name : 'Ora segui ' + teamById.get(id).name);
+    if (focusKey) {
+      const again = $(`[data-view="${state.view}"] [data-fav="${CSS.escape(focusKey)}"]`);
+      if (again) again.focus(); else { const fb = $(`[data-view="${state.view}"] h1`); if (fb) fb.focus(); }
+    }
+  }
+  function favBtn(team) {
+    const on = state.fav === team.id;
+    return `<button class="icon-btn star-btn" type="button" data-fav="${esc(team.id)}" aria-pressed="${on}" aria-label="${on ? 'Non seguire più' : 'Segui'} ${esc(team.name)}">${ICON.star}</button>`;
+  }
+
+  /* ---------------- Home ---------------- */
+  function matchHTML(m) {
+    const h = teamByName.get(m.h), a = teamByName.get(m.a);
+    const hw = m.hs > m.as, aw = m.as > m.hs;
+    const favH = state.fav === h.id, favA = state.fav === a.id;
+    const res = hw ? `Vince ${h.name}` : aw ? `Vince ${a.name}` : 'Pareggio';
+    return `<article class="match" aria-label="${esc(h.name)} ${m.hs} – ${m.as} ${esc(a.name)}. ${esc(res)}">
+      <div class="match-team home ${hw ? 'is-winner' : ''}"><span class="name">${teamLink(h)}${favH ? '<span class="fav-tag">La tua squadra</span>' : ''}</span>${logoBox(h, 36)}</div>
+      <div class="score" aria-hidden="true"><span>${m.hs}</span><span class="sep">–</span><span>${m.as}</span></div>
+      <div class="match-team ${aw ? 'is-winner' : ''}">${logoBox(a, 36)}<span class="name">${teamLink(a)}${favA ? '<span class="fav-tag">La tua squadra</span>' : ''}</span></div>
+      <p class="match-meta"><span class="od-nowrap">${esc(m.meta)}</span><span>${hw || aw ? 'Vittoria in grassetto' : 'Pareggio · 1 punto a testa'}</span></p>
+    </article>`;
+  }
+
+  function renderHome() {
+    const r2 = GOLD_A.rounds[1];
+    $('#home-results').innerHTML = r2.matches.map(matchHTML).join('') + `<p class="rest-note">Riposa: ${esc(r2.rest)}</p>`;
+
+    $$('[data-series-links]').forEach(box => {
+      const s = box.dataset.seriesLinks;
+      box.innerHTML = SERIES[s].gironi.map(g => `<button class="girone-link" type="button" data-goto-girone="${s}-${g}" aria-label="${SERIES[s].name} girone ${g}">${g}</button>`).join('');
+    });
+
+    const mt = $('#myteam');
+    const team = state.fav ? teamById.get(state.fav) : null;
+    if (!team) {
+      mt.innerHTML = `<p class="eyebrow">Personalizza</p>
+        <h2 id="myteam-title">Segui la tua squadra</h2>
+        <p>Scegli la squadra del tuo circolo: la troverai qui in apertura, evidenziata in classifiche e risultati.</p>
+        <div><button class="btn btn-primary" type="button" data-open-team>${ICON.star}<span class="btn-label">Scegli la squadra</span></button></div>`;
+    } else {
+      const data = GIRONE_DATA[team.gid];
+      let statsHTML = '';
+      if (data) {
+        const idx = data.standings.findIndex(r => r[0] === team.name);
+        const row = data.standings[idx];
+        statsHTML = `<div class="od-grid myteam-stats">
+          <div class="od-stat"><span>${idx + 1}°</span><span>in classifica</span></div>
+          <div class="od-stat"><span>${row[6]}</span><span>punti</span></div>
+          <div class="od-stat"><span>${row[1]}</span><span>giocate</span></div>
+        </div>
+        <p>Prossima: 3ª giornata, 7–8 novembre</p>`;
+      } else {
+        statsHTML = `<p>Classifica e risultati del ${esc(gidLabel(team.gid))} saranno visibili qui appena pubblicati.</p>`;
+      }
+      mt.innerHTML = `<p class="eyebrow">La mia squadra</p>
+        <h2 id="myteam-title" class="sr-only">La mia squadra</h2>
+        <div class="od-stack" style="--od-gap:var(--s-2)">
+          <span class="badge ${team.serie === 'G' ? 'badge-gold' : 'badge-silver'}" style="justify-self:start;align-self:flex-start">${esc(gidLabel(team.gid))}</span>
+          <p class="myteam-name">${esc(team.name)}</p>
+          <p>${esc(team.club.name)} · ${esc(team.club.city)}</p>
+        </div>
+        ${statsHTML}
+        <div class="od-cluster">
+          <button class="btn btn-primary" type="button" data-team="${esc(team.id)}"><span class="btn-label">Scheda squadra</span></button>
+          <button class="btn btn-ghost-dark" type="button" data-goto-girone="${team.gid}" data-tab="classifica">Girone</button>
+          <button class="btn btn-ghost-dark" type="button" data-open-team>Cambia</button>
+        </div>`;
+    }
+  }
+
+  function renderNews() {
+    const press = PRESS.map(p => `<a class="card news-card" href="${esc(p.url)}" target="_blank" rel="noopener">
+        <img class="src-logo" src="${esc(p.src)}" width="${p.w}" height="${p.h}" style="width:auto" alt="${esc(p.alt)}">
+        <p class="small muted">${esc(p.date)}</p>
+        <h3>${esc(p.title)}</h3>
+        <span class="more">Leggi l'articolo ${ICON.ext}</span>
+      </a>`);
+    const video = `<a class="card news-card video-card" href="${esc(VIDEO.url)}" target="_blank" rel="noopener">
+        <span class="video-thumb"><img src="${esc(VIDEO.thumb)}" width="320" height="180" alt="Anteprima del video Noi Sport del 21 ottobre 2026" loading="lazy"><span class="play">${ICON.play}</span></span>
+        <span class="video-body"><span class="small muted" style="display:block">Video · Noi Sport</span><h3>${esc(VIDEO.title)}</h3><span class="more">Guarda su YouTube ${ICON.ext}</span></span>
+      </a>`;
+    $$('[data-news]').forEach(box => {
+      const mode = box.dataset.news;
+      if (mode === 'press') box.innerHTML = press.join('');
+      else if (mode === 'video') box.innerHTML = video;
+      else box.innerHTML = press.join('') + video;
+    });
+  }
+
+  /* ---------------- Gare ---------------- */
+  function renderGare() {
+    $$('[data-series]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.series === state.series)));
+    const rail = $('#girone-rail');
+    rail.innerHTML = SERIES[state.series].gironi.map(g => {
+      const gid = state.series + '-' + g;
+      return `<button class="girone-chip" type="button" data-girone="${gid}" aria-pressed="${gid === state.gid}">Girone ${g}</button>`;
+    }).join('');
+    $$('.tabs [role="tab"]').forEach(t => {
+      const on = t.dataset.tab === state.tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+    });
+    $('#panel').setAttribute('aria-labelledby', 'tab-' + state.tab);
+    renderPanel();
+    const activeChip = $('.girone-chip[aria-pressed="true"]', rail);
+    if (activeChip) activeChip.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+
+  $('.segmented[aria-label="Serie"]').addEventListener('click', e => {
+    const b = e.target.closest('[data-series]');
+    if (!b || b.dataset.series === state.series) return;
+    state.series = b.dataset.series;
+    state.gid = state.series + '-A';
+    renderGare();
+  });
+  $('#girone-rail').addEventListener('click', e => {
+    const b = e.target.closest('[data-girone]');
+    if (!b) return;
+    state.gid = b.dataset.girone;
+    renderGare();
+    const again = $(`[data-girone="${state.gid}"]`);
+    if (again) again.focus();
+  });
+  const tablist = $('.tabs');
+  tablist.addEventListener('click', e => {
+    const t = e.target.closest('[role="tab"]');
+    if (!t) return;
+    state.tab = t.dataset.tab;
+    renderGare();
+  });
+  tablist.addEventListener('keydown', e => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+    const tabs = $$('[role="tab"]', tablist);
+    let i = tabs.findIndex(t => t.dataset.tab === state.tab);
+    if (e.key === 'ArrowRight') i = (i + 1) % tabs.length;
+    if (e.key === 'ArrowLeft') i = (i - 1 + tabs.length) % tabs.length;
+    if (e.key === 'Home') i = 0;
+    if (e.key === 'End') i = tabs.length - 1;
+    e.preventDefault();
+    state.tab = tabs[i].dataset.tab;
+    renderGare();
+    tabs[i].focus();
+  });
+
+  function gironeTeams(gid) { return teams.filter(t => t.gid === gid).sort((a, b) => a.name.localeCompare(b.name, 'it')); }
+
+  function emptyPanel(title, text, actionTab, actionLabel) {
+    return `<div class="card empty">${ICON.clock}<h3>${esc(title)}</h3><p>${esc(text)}</p>${actionTab ? `<button class="btn btn-outline" type="button" data-goto-girone="${state.gid}" data-tab="${actionTab}">${esc(actionLabel)}</button>` : ''}</div>`;
+  }
+
+  function renderPanel() {
+    const panel = $('#panel');
+    const data = GIRONE_DATA[state.gid];
+    const list = gironeTeams(state.gid);
+    const head = (title, extra = '') => `<div class="panel-head"><h2>${esc(title)}</h2><span class="badge ${state.series === 'G' ? 'badge-gold' : 'badge-silver'}">${esc(gidLabel(state.gid))} · ${list.length} squadre</span>${extra}</div>`;
+
+    if (state.tab === 'classifica') {
+      if (!data) { panel.innerHTML = head('Classifica') + emptyPanel('Classifica in aggiornamento', 'La classifica di questo girone non è ancora stata pubblicata. Intanto puoi vedere le squadre e il loro circolo.', 'squadre', 'Vedi le squadre'); return; }
+      const rows = data.standings.map((r, i) => {
+        const t = teamByName.get(r[0]);
+        const fav = state.fav === t.id;
+        return `<tr class="${fav ? 'is-fav' : ''}">
+          <td class="t-pos">${i + 1}</td>
+          <td class="t-team"><div class="team-cell">${logoBox(t, 32)}<span class="name">${teamLink(t)}${fav ? '<span class="fav-tag">La tua squadra</span>' : ''}</span></div></td>
+          <td class="t-num">${r[1]}</td><td class="t-num col-x">${r[2]}</td><td class="t-num col-x">${r[3]}</td><td class="t-num col-x">${r[4]}</td>
+          <td class="t-inc">${r[5]}</td><td class="t-pts">${r[6]}</td>
+          <td class="t-fav">${favBtn(t)}</td>
+        </tr>`;
+      }).join('');
+      panel.innerHTML = head('Classifica', '<span class="small muted">Aggiornata alla 2ª giornata</span>') + `
+        <table class="standings">
+          <caption class="sr-only">Classifica ${esc(gidLabel(state.gid))}</caption>
+          <thead><tr>
+            <th class="t-pos" scope="col"><abbr title="Posizione">#</abbr></th>
+            <th class="t-team" scope="col">Squadra</th>
+            <th class="t-num" scope="col"><abbr title="Giocate">G</abbr></th>
+            <th class="t-num col-x" scope="col"><abbr title="Vinte">V</abbr></th>
+            <th class="t-num col-x" scope="col"><abbr title="Pareggiate">N</abbr></th>
+            <th class="t-num col-x" scope="col"><abbr title="Perse">P</abbr></th>
+            <th class="t-inc" scope="col"><abbr title="Incontri vinti e persi">Inc</abbr></th>
+            <th class="t-pts" scope="col"><abbr title="Punti">Pt</abbr></th>
+            <th class="t-fav" scope="col"><span class="sr-only">Segui</span></th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <p class="legend">G giocate · V vinte · N pareggiate · P perse · Inc incontri vinti:persi · Pt punti. Tocca la stella per seguire una squadra.</p>
+        <div class="card points-box">
+          <h3>Come si assegnano i punti</h3>
+          <ul class="points-list">
+            <li><span class="score">4<span class="sep">–</span>0</span><span>3 punti</span></li>
+            <li><span class="score">3<span class="sep">–</span>1</span><span>2 punti</span></li>
+            <li><span class="score">2<span class="sep">–</span>2</span><span>1 punto a testa</span></li>
+          </ul>
+          <p class="small muted">A parità di punti conta la differenza incontri.</p>
+        </div>`;
+      return;
+    }
+
+    if (state.tab === 'risultati') {
+      if (!data) { panel.innerHTML = head('Risultati') + emptyPanel('Risultati non ancora pubblicati', 'I risultati di questo girone compariranno qui dopo l’inserimento dei referti.', 'squadre', 'Vedi le squadre'); return; }
+      const played = data.rounds.filter(r => r.status === 'played').slice().reverse();
+      panel.innerHTML = head('Risultati') + played.map(r => `<section class="round" aria-labelledby="rd-${r.n}">
+          <div class="round-head"><h3 id="rd-${r.n}">${r.n}ª giornata</h3><span class="small muted od-nowrap">${esc(r.dates)}</span></div>
+          <div class="results-list">${r.matches.map(matchHTML).join('')}<p class="rest-note">Riposa: ${esc(r.rest)}</p></div>
+        </section>`).join('');
+      return;
+    }
+
+    if (state.tab === 'calendario') {
+      if (!data) { panel.innerHTML = head('Calendario') + emptyPanel('Calendario in pubblicazione', 'Date e accoppiamenti di questo girone non sono ancora disponibili online.', 'squadre', 'Vedi le squadre'); return; }
+      const label = { played: ['badge-played', 'Giocata'], next: ['badge-next', 'Prossima'], upcoming: ['badge-upcoming', 'In programma'] };
+      panel.innerHTML = head('Calendario', '<span class="small muted">Girone all’italiana · 7 giornate</span>') + `<ol class="cal-list">${data.rounds.map(r => {
+        const [cls, txt] = label[r.status];
+        const sub = r.status === 'played' ? r.matches.length + ' incontri · riposa ' + r.rest : 'Accoppiamenti in pubblicazione';
+        return `<li class="cal-row ${r.status === 'next' ? 'is-next' : ''}">
+          <span class="cal-num" aria-label="Giornata ${r.n}">${r.n}ª</span>
+          <div class="od-field"><span class="od-nowrap">${esc(r.dates)}</span><span>${esc(sub)}</span></div>
+          <span class="badge ${cls}">${txt}</span>
+        </li>`;
+      }).join('')}</ol>
+      <div style="margin-top:var(--s-4)"><button class="btn btn-text" type="button" data-goto-girone="${state.gid}" data-tab="risultati"><span class="btn-label">Vedi i risultati</span>${ICON.arrow}</button></div>`;
+      return;
+    }
+
+    // squadre
+    panel.innerHTML = head('Squadre') + `<ul class="team-grid">${list.map(t => `<li class="team-item">
+        ${logoBox(t, 48)}
+        <div class="od-field od-fill"><span>${teamLink(t)}</span><span>${esc(t.club.name)} · ${esc(t.club.city)}</span></div>
+        ${favBtn(t)}
+      </li>`).join('')}</ul>`;
+  }
+
+  /* ---------------- Scheda squadra ---------------- */
+  // Rose ufficiali: il sito attuale non le pubblica. Formato atteso per ogni squadra:
+  // 'ternana-padel-blu': [{ nome: 'Nome Cognome', cat: 4, cap: true }, ...]  (cat = 3, 4 o 5)
+  const ROSTERS = {};
+
+  function teamLink(team) {
+    return `<button class="team-link" type="button" data-team="${esc(team.id)}">${esc(team.name)}</button>`;
+  }
+
+  function openTeam(id) {
+    if (!teamById.has(id)) return;
+    if (state.view !== 'squadra') { state.returnView = state.view; state.returnTeam = id; }
+    state.teamId = id;
+    go('squadra');
+  }
+
+  function teamBack() {
+    const v = state.returnView || 'gare';
+    const id = state.returnTeam;
+    go(v, { keepScroll: true, silentFocus: true });
+    const target = id ? $(`[data-view="${v}"] [data-team="${CSS.escape(id)}"]`) : null;
+    if (target) target.focus({ preventScroll: true });
+    else { const h = $(`[data-view="${v}"] h1`); if (h) h.focus({ preventScroll: true }); }
+  }
+
+  const BACK_LABEL = { home: 'Home', gare: 'Gare e classifiche', circoli: 'Circoli', altro: 'Altro', media: 'Foto e stampa', documenti: 'Documenti', regolamento: 'Regolamento' };
+
+  function matchPoints(my, their) {
+    if (my > their) return my === 4 ? 3 : 2;
+    if (my === their) return 1;
+    return 0;
+  }
+
+  function teamMatchesHTML(team) {
+    const data = GIRONE_DATA[team.gid];
+    if (!data) {
+      return `<div class="card empty">${ICON.cal}<h3>Calendario in pubblicazione</h3><p>Date e accoppiamenti del ${esc(gidLabel(team.gid))} non sono ancora disponibili online. Le partite compariranno qui appena pubblicate.</p></div>`;
+    }
+    const rows = data.rounds.map(r => {
+      if (r.status !== 'played') {
+        const next = r.status === 'next';
+        return `<li class="tmatch ${next ? 'is-next' : ''}">
+          <span class="g" aria-label="Giornata ${r.n}">${r.n}ª</span>
+          <div class="od-field"><span>Accoppiamento in pubblicazione</span><span class="od-nowrap">${esc(r.dates)}</span></div>
+          <div class="res"><span class="badge ${next ? 'badge-next' : 'badge-upcoming'}">${next ? 'Prossima' : 'In programma'}</span></div>
+        </li>`;
+      }
+      if (r.rest === team.name) {
+        return `<li class="tmatch">
+          <span class="g" aria-label="Giornata ${r.n}">${r.n}ª</span>
+          <div class="od-field"><span>Turno di riposo</span><span class="od-nowrap">${esc(r.dates)}</span></div>
+          <div class="res"><span class="badge badge-upcoming">Riposo</span></div>
+        </li>`;
+      }
+      const m = r.matches.find(x => x.h === team.name || x.a === team.name);
+      if (!m) return '';
+      const home = m.h === team.name;
+      const opp = teamByName.get(home ? m.a : m.h);
+      const my = home ? m.hs : m.as, their = home ? m.as : m.hs;
+      const out = my > their ? ['badge-win', 'Vittoria'] : my < their ? ['badge-loss', 'Sconfitta'] : ['badge-draw', 'Pareggio'];
+      const pts = matchPoints(my, their);
+      const venue = r.noVenue ? '' : (home ? 'In casa · ' : 'In trasferta · ');
+      return `<li class="tmatch">
+        <span class="g" aria-label="Giornata ${r.n}">${r.n}ª</span>
+        <div class="od-field"><span>vs ${teamLink(opp)}</span><span>${venue}${esc(m.meta)}</span></div>
+        <div class="res">
+          <span class="score" aria-label="Risultato ${my} a ${their}"><span>${my}</span><span class="sep">–</span><span>${their}</span></span>
+          <span class="badge ${out[0]}">${out[1]} · ${pts} pt</span>
+        </div>
+      </li>`;
+    }).join('');
+    return `<ol class="tmatch-list">${rows}</ol>`;
+  }
+
+  function rosterHTML(team) {
+    const list = ROSTERS[team.id];
+    if (list && list.length) {
+      const sorted = list.slice().sort((a, b) => (b.cap === true) - (a.cap === true) || a.nome.localeCompare(b.nome, 'it'));
+      return `<table class="roster">
+        <caption class="sr-only">Rosa di ${esc(team.name)}</caption>
+        <thead><tr><th class="r-num" scope="col">#</th><th scope="col">Giocatore</th><th class="r-cat" scope="col">Categoria</th></tr></thead>
+        <tbody>${sorted.map((p, i) => `<tr>
+          <td class="r-num">${i + 1}</td>
+          <td>${esc(p.nome)}${p.cap ? '<span class="cap">Capitano</span>' : ''}</td>
+          <td class="r-cat od-nowrap">${esc(p.cat)}ª categoria</td>
+        </tr>`).join('')}</tbody>
+      </table>`;
+    }
+    return `<div class="card empty">
+      <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg>
+      <h3>Rosa non ancora pubblicata</h3>
+      <p>L’elenco dei giocatori di questa squadra non è ancora stato caricato dal circolo.</p>
+      <ul class="roster-rules">
+        <li>${ICON.alert}<span>Ogni lista comprende da 16 a 35 giocatori (Art. 3).</span></li>
+        <li>${ICON.alert}<span>Sono ammessi giocatori di 3ª, 4ª e 5ª categoria, con limiti per la 3ª (Art. 2).</span></li>
+      </ul>
+      <a class="btn btn-outline" href="https://umbriacoppadeiclub.it/modulistica/elenco-giocatori-squadra.pdf" target="_blank" rel="noopener">${ICON.download.replace(' dl', '')}<span class="btn-label">Modulo elenco giocatori</span></a>
+    </div>`;
+  }
+
+  function renderTeam() {
+    const team = teamById.get(state.teamId);
+    const box = $('#team-page');
+    if (!team) { box.innerHTML = ''; return; }
+    const data = GIRONE_DATA[team.gid];
+    const fav = state.fav === team.id;
+    const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(team.club.name + ' ' + team.club.address + ' ' + team.club.city);
+
+    let statsHTML;
+    if (data) {
+      const idx = data.standings.findIndex(r => r[0] === team.name);
+      const r = data.standings[idx];
+      statsHTML = `<div class="od-grid team-stats" aria-label="Statistiche in classifica">
+        <div class="od-stat is-key"><span>${idx + 1}°</span><span>posizione</span></div>
+        <div class="od-stat is-key"><span>${r[6]}</span><span>punti</span></div>
+        <div class="od-stat"><span>${r[1]}</span><span>giocate</span></div>
+        <div class="od-stat"><span>${r[2]}–${r[3]}–${r[4]}</span><span>V · N · P</span></div>
+        <div class="od-stat"><span>${r[5]}</span><span>incontri</span></div>
+        <div class="od-stat"><span>${data.standings.length}</span><span>squadre nel girone</span></div>
+      </div>`;
+    } else {
+      statsHTML = `<div class="notice" style="margin-top:var(--s-8)">${ICON.alert}<p>Classifica e statistiche del ${esc(gidLabel(team.gid))} non sono ancora pubblicate.</p></div>`;
+    }
+
+    const siblings = team.club.teams.filter(t => t.id !== team.id);
+    const siblingsHTML = siblings.length ? `<div style="margin-top:var(--s-8)">
+        <h2>Altre squadre di ${esc(team.club.name)}</h2>
+        <ul class="sibling-teams">${siblings.map(t => `<li><button class="team-chip" type="button" data-team="${esc(t.id)}">
+          <span class="t-name">${esc(t.name)}</span>
+          <span class="t-go"><span class="badge ${t.serie === 'G' ? 'badge-gold' : 'badge-silver'}">${SERIES[t.serie].name} ${t.girone}</span>${ICON.arrow}</span>
+        </button></li>`).join('')}</ul>
+      </div>` : '';
+
+    const rosterCount = ROSTERS[team.id] && ROSTERS[team.id].length ? `<span class="small muted">${ROSTERS[team.id].length} giocatori</span>` : '';
+
+    box.innerHTML = `
+      <div class="team-hero on-dark">
+        <div class="container">
+          <button class="btn btn-text back-btn" type="button" data-team-back>
+            <svg class="od-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            <span class="btn-label">${esc(BACK_LABEL[state.returnView] || 'Indietro')}</span>
+          </button>
+          <div class="team-hero-main">
+            <span class="logo-box"><img src="${esc(team.club.logo)}" alt="Logo ${esc(team.club.name)}"></span>
+            <div class="od-stack" style="--od-gap:var(--s-2)">
+              <span class="badge ${team.serie === 'G' ? 'badge-gold' : 'badge-silver'}" style="align-self:flex-start">${esc(gidLabel(team.gid))}</span>
+              <h1 class="display" id="team-page-title" tabindex="-1">${esc(team.name)}</h1>
+              <p class="club-line">${esc(team.club.name)} · ${esc(team.club.address)}, ${esc(team.club.city)}</p>
+            </div>
+          </div>
+          <div class="od-cluster">
+            <button class="btn btn-primary" type="button" data-goto-girone="${team.gid}" data-tab="classifica"><span class="btn-label">Classifica del girone</span></button>
+            <a class="btn btn-ghost-dark" href="${esc(maps)}" target="_blank" rel="noopener">${ICON.pin}<span class="btn-label">Campo di casa</span></a>
+            <button class="icon-btn star-btn" type="button" data-fav="${esc(team.id)}" aria-pressed="${fav}" aria-label="${fav ? 'Non seguire più' : 'Segui'} ${esc(team.name)}">${ICON.star}</button>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        ${statsHTML}
+        <div class="team-layout">
+          <section aria-labelledby="tp-matches">
+            <div class="team-section-head"><h2 id="tp-matches">Partite</h2>${data ? '<span class="small muted">Girone all’italiana · 7 giornate</span>' : ''}</div>
+            ${teamMatchesHTML(team)}
+          </section>
+          <section aria-labelledby="tp-roster">
+            <div class="team-section-head"><h2 id="tp-roster">Rosa</h2>${rosterCount}</div>
+            ${rosterHTML(team)}
+            ${siblingsHTML}
+          </section>
+        </div>
+      </div>`;
+  }
+
+  /* ---------------- Circoli ---------------- */
+  function renderClubs() {
+    const q = norm(state.clubQuery.trim());
+    const f = state.clubFilter;
+    const res = clubs.filter(c => {
+      if (f !== 'all' && !c.teams.some(t => t.serie === f)) return false;
+      if (!q) return true;
+      return norm(c.name).includes(q) || norm(c.city).includes(q) || c.teams.some(t => norm(t.name).includes(q));
+    });
+    $('#club-count').textContent = res.length === 1 ? '1 circolo' : res.length + ' circoli';
+    $('#club-empty').hidden = res.length > 0;
+    const grid = $('#club-grid');
+    grid.hidden = res.length === 0;
+    grid.innerHTML = res.map(c => {
+      const shown = c.teams.filter(t => f === 'all' || t.serie === f);
+      const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.name + ' ' + c.address + ' ' + c.city);
+      return `<article class="card club-card">
+        <div class="od-row-top">
+          <span class="logo-box" style="width:64px;height:64px"><img src="${esc(c.logo)}" alt="Logo ${esc(c.name)}" loading="lazy"></span>
+          <div class="od-stack od-fill" style="--od-gap:2px">
+            <h3>${esc(c.name)}</h3>
+            <p class="addr">${esc(c.address)}<br>${esc(c.city)}</p>
+          </div>
+        </div>
+        <ul class="club-teams" aria-label="Squadre di ${esc(c.name)}">${shown.map(t => `<li><button class="team-chip" type="button" data-team="${esc(t.id)}" aria-label="Scheda ${esc(t.name)}, ${SERIES[t.serie].name} girone ${t.girone}">
+            <span class="t-name">${esc(t.name)}</span>
+            <span class="t-go"><span class="badge ${t.serie === 'G' ? 'badge-gold' : 'badge-silver'}">${SERIES[t.serie].name} ${t.girone}</span>${ICON.arrow}</span>
+          </button></li>`).join('')}</ul>
+        <a class="map-link" href="${esc(maps)}" target="_blank" rel="noopener">${ICON.pin}Indicazioni stradali</a>
+      </article>`;
+    }).join('');
+  }
+  const clubSearch = $('#club-search');
+  clubSearch.addEventListener('input', () => { state.clubQuery = clubSearch.value; $('[data-clear="club-search"]').hidden = !clubSearch.value; renderClubs(); });
+  $$('[data-club-filter]').forEach(b => b.addEventListener('click', () => {
+    state.clubFilter = b.dataset.clubFilter;
+    $$('[data-club-filter]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    renderClubs();
+  }));
+  $('[data-reset-clubs]').addEventListener('click', () => {
+    state.clubQuery = ''; state.clubFilter = 'all'; clubSearch.value = '';
+    $('[data-clear="club-search"]').hidden = true;
+    $$('[data-club-filter]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.clubFilter === 'all')));
+    renderClubs(); clubSearch.focus();
+  });
+
+  /* ---------------- Regolamento ---------------- */
+  function highlight(text, q) {
+    const safe = esc(text);
+    if (!q) return safe;
+    const n = norm(text); const nq = norm(q);
+    let out = '', i = 0, idx;
+    while ((idx = n.indexOf(nq, i)) !== -1) {
+      out += esc(text.slice(i, idx)) + '<mark>' + esc(text.slice(idx, idx + q.length)) + '</mark>';
+      i = idx + q.length;
+    }
+    return out + esc(text.slice(i));
+  }
+  function renderRules() {
+    const q = state.ruleQuery.trim();
+    const nq = norm(q);
+    const res = RULES.filter(([n, t, b]) => !nq || norm(t).includes(nq) || norm(b).includes(nq) || norm('art ' + n).includes(nq));
+    $('#rule-count').textContent = q ? (res.length === 1 ? '1 articolo trovato' : res.length + ' articoli trovati') : RULES.length + ' articoli';
+    $('#rule-empty').hidden = res.length > 0;
+    const list = $('#rules-list');
+    list.hidden = res.length === 0;
+    list.innerHTML = res.map(([n, t, b]) => `<details class="rule"${q ? ' open' : ''}>
+        <summary><span class="art od-nowrap">Art. ${esc(n)}</span><span class="rule-title">${highlight(t, q)}</span>${ICON.chevDown}</summary>
+        <div class="rule-body"><p>${highlight(b, q)}</p></div>
+      </details>`).join('');
+  }
+  const ruleSearch = $('#rule-search');
+  ruleSearch.addEventListener('input', () => { state.ruleQuery = ruleSearch.value; $('[data-clear="rule-search"]').hidden = !ruleSearch.value; renderRules(); });
+  $('[data-clear-rules]').addEventListener('click', () => { ruleSearch.value = ''; state.ruleQuery = ''; $('[data-clear="rule-search"]').hidden = true; renderRules(); ruleSearch.focus(); });
+
+  $$('[data-clear]').forEach(b => b.addEventListener('click', () => {
+    const input = document.getElementById(b.dataset.clear);
+    input.value = '';
+    input.dispatchEvent(new Event('input'));
+    input.focus();
+  }));
+
+  /* ---------------- Documenti ---------------- */
+  $('#docs-grid').innerHTML = DOCS.map(([t, d, f]) => `<a class="card doc" href="https://umbriacoppadeiclub.it/modulistica/${f}" target="_blank" rel="noopener">
+      <span class="doc-ico">${ICON.file}</span>
+      <div class="od-field od-fill"><span>${esc(t)}</span><span>${esc(d)} · PDF</span></div>
+      ${ICON.download}
+    </a>`).join('');
+
+  /* ---------------- Form assistenza ---------------- */
+  const fClub = $('#f-club');
+  fClub.innerHTML = '<option value="">Seleziona il circolo…</option>' + clubs.map(c => `<option>${esc(c.name)}</option>`).join('') + '<option>Nuovo circolo / non in elenco</option>';
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const FIELDS = [
+    { id: 'f-club', label: 'Circolo', check: v => v ? '' : 'Seleziona il tuo circolo dall’elenco, oppure “Nuovo circolo”.' },
+    { id: 'f-topic', label: 'Argomento', check: v => v ? '' : 'Scegli l’argomento, così la richiesta arriva alla persona giusta.' },
+    { id: 'f-name', label: 'Nome e cognome', check: v => v.trim().length >= 3 ? '' : 'Scrivi nome e cognome del referente (almeno 3 caratteri).' },
+    { id: 'f-email', label: 'Email', check: v => !v.trim() ? 'Inserisci un’email: ti risponderemo lì.' : EMAIL_RE.test(v.trim()) ? '' : 'L’email non sembra valida: controlla che contenga “@” e un dominio, es. nome@circolo.it.' },
+    { id: 'f-phone', label: 'Telefono', check: v => !v.trim() || /^[+\d][\d\s./-]{5,}$/.test(v.trim()) ? '' : 'Il numero contiene caratteri non validi: usa solo cifre, spazi e “+”.' },
+    { id: 'f-msg', label: 'Messaggio', check: v => v.trim().length >= 10 ? '' : 'Descrivi la richiesta in almeno 10 caratteri.' }
+  ];
+  function setFieldError(id, msg) {
+    const input = document.getElementById(id);
+    const err = document.getElementById(id + '-err');
+    if (msg) {
+      input.setAttribute('aria-invalid', 'true');
+      if (err) { err.innerHTML = ICON.alert + '<span>' + esc(msg) + '</span>'; err.hidden = false; }
+    } else {
+      input.removeAttribute('aria-invalid');
+      if (err) { err.hidden = true; err.textContent = ''; }
+    }
+  }
+  function validateField(f) { const el = document.getElementById(f.id); const msg = f.check(el.value); setFieldError(f.id, msg); return msg; }
+  FIELDS.forEach(f => {
+    const el = document.getElementById(f.id);
+    el.addEventListener('blur', () => { if (el.value || el.getAttribute('aria-invalid')) validateField(f); });
+    el.addEventListener('change', () => { if (el.getAttribute('aria-invalid')) validateField(f); });
+    if (el.tagName === 'INPUT') el.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submitSupport(); } });
+  });
+  const supportBtn = $('#support-submit');
+  let supportBusy = false;
+  function submitSupport() {
+    if (supportBusy) return;
+    const errors = FIELDS.map(f => ({ f, msg: validateField(f) })).filter(x => x.msg);
+    const summary = $('#support-summary');
+    if (errors.length) {
+      $('#support-summary-list').innerHTML = errors.map(x => `<li><a href="#${x.f.id}" data-focus="${x.f.id}">${esc(x.f.label)}: ${esc(x.msg)}</a></li>`).join('');
+      summary.hidden = false;
+      summary.focus();
+      return;
+    }
+    summary.hidden = true;
+    supportBusy = true;
+    supportBtn.disabled = true;
+    supportBtn.classList.add('is-loading');
+    $('.btn-label', supportBtn).textContent = 'Invio in corso';
+    setTimeout(() => {
+      supportBusy = false;
+      supportBtn.disabled = false;
+      supportBtn.classList.remove('is-loading');
+      $('.btn-label', supportBtn).textContent = 'Invia richiesta';
+      $('#support-success-text').textContent = `Grazie ${$('#f-name').value.trim()}, la richiesta “${$('#f-topic').value}” per ${$('#f-club').value} è stata registrata. Ti risponderemo a ${$('#f-email').value.trim()}.`;
+      $('#support-form-wrap').hidden = true;
+      const ok = $('#support-success');
+      ok.hidden = false;
+      ok.focus();
+    }, 900);
+  }
+  supportBtn.addEventListener('click', submitSupport);
+  $('#support-summary').addEventListener('click', e => {
+    const a = e.target.closest('[data-focus]');
+    if (!a) return;
+    e.preventDefault();
+    const el = document.getElementById(a.dataset.focus);
+    el.focus();
+    el.scrollIntoView({ block: 'center' });
+  });
+  $('#support-again').addEventListener('click', () => {
+    FIELDS.forEach(f => { document.getElementById(f.id).value = ''; setFieldError(f.id, ''); });
+    $('#support-summary').hidden = true;
+    $('#support-success').hidden = true;
+    $('#support-form-wrap').hidden = false;
+    $('#f-club').focus();
+  });
+
+  /* ---------------- Dialog: login ---------------- */
+  const loginDlg = $('#login-dialog');
+  let loginReturn = null;
+  const LOGIN_FIELDS = [
+    { id: 'l-email', check: v => !v.trim() ? 'Inserisci l’email con cui il circolo è registrato.' : EMAIL_RE.test(v.trim()) ? '' : 'L’email non sembra valida, es. nome@circolo.it.' },
+    { id: 'l-pass', check: v => v ? '' : 'Inserisci la password ricevuta dalla segreteria.' }
+  ];
+  LOGIN_FIELDS.forEach(f => {
+    const el = document.getElementById(f.id);
+    el.addEventListener('blur', () => { if (el.value || el.getAttribute('aria-invalid')) validateField(f); });
+    el.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submitLogin(); } });
+  });
+  function openLogin(trigger) {
+    loginReturn = trigger;
+    LOGIN_FIELDS.forEach(f => { document.getElementById(f.id).value = ''; setFieldError(f.id, ''); });
+    $('#login-form-wrap').hidden = false;
+    $('#login-done').hidden = true;
+    loginDlg.showModal();
+    requestAnimationFrame(() => $('#l-email').focus());
+  }
+  const loginBtn = $('#login-submit');
+  let loginBusy = false;
+  function submitLogin() {
+    if (loginBusy) return;
+    const errs = LOGIN_FIELDS.map(validateField).filter(Boolean);
+    if (errs.length) { const first = LOGIN_FIELDS.find(f => document.getElementById(f.id).getAttribute('aria-invalid')); document.getElementById(first.id).focus(); return; }
+    loginBusy = true; loginBtn.disabled = true; $('.btn-label', loginBtn).textContent = 'Verifica…';
+    setTimeout(() => {
+      loginBusy = false; loginBtn.disabled = false; $('.btn-label', loginBtn).textContent = 'Accedi';
+      $('#login-form-wrap').hidden = true;
+      $('#login-done').hidden = false;
+      $('#login-done [data-close-dialog]').focus();
+    }, 900);
+  }
+  loginBtn.addEventListener('click', submitLogin);
+  $('[data-request-access]').addEventListener('click', () => {
+    loginDlg.close();
+    go('documenti');
+    $('#f-topic').value = 'Credenziali area gestori';
+    if (!$('#support-success').hidden) $('#support-again').click();
+    $('#f-topic').value = 'Credenziali area gestori';
+    const card = $('#support');
+    card.scrollIntoView({ block: 'start' });
+    $('#f-club').focus({ preventScroll: true });
+  });
+  loginDlg.addEventListener('close', () => {
+    const target = loginReturn && document.body.contains(loginReturn) && loginReturn.offsetParent !== null ? loginReturn : null;
+    if (target) target.focus();
+  });
+
+  /* ---------------- Dialog: squadra ---------------- */
+  const teamDlg = $('#team-dialog');
+  const teamSelect = $('#team-select');
+  let teamReturn = null;
+  teamSelect.innerHTML = '<option value="">Seleziona una squadra…</option>' + ['G', 'S'].map(s => SERIES[s].gironi.map(g => {
+    const gid = s + '-' + g;
+    return `<optgroup label="${SERIES[s].name} · Girone ${g}">${gironeTeams(gid).map(t => `<option value="${esc(t.id)}">${esc(t.name)}</option>`).join('')}</optgroup>`;
+  }).join('')).join('');
+  function openTeamDialog(trigger) {
+    teamReturn = trigger;
+    teamSelect.value = state.fav || '';
+    $('#team-remove').hidden = !state.fav;
+    teamDlg.showModal();
+    requestAnimationFrame(() => teamSelect.focus());
+  }
+  $('#team-save').addEventListener('click', () => {
+    const v = teamSelect.value;
+    if (!v) { toast('Seleziona una squadra dall’elenco'); teamSelect.focus(); return; }
+    setFav(v);
+    toast('Ora segui ' + teamById.get(v).name);
+    teamDlg.close();
+  });
+  $('#team-remove').addEventListener('click', () => { setFav(null); toast('Non segui più nessuna squadra'); teamDlg.close(); });
+  teamDlg.addEventListener('close', () => {
+    // il trigger può essere stato ricostruito (card home): cerca l'equivalente vivo
+    let target = teamReturn && document.body.contains(teamReturn) && teamReturn.offsetParent !== null ? teamReturn : null;
+    if (!target) target = $(`[data-view="${state.view}"] [data-open-team]`) || $(`[data-view="${state.view}"] h1`);
+    if (target) target.focus();
+  });
+
+  function renderAltroSub() {
+    $('#altro-team-sub').textContent = state.fav ? teamById.get(state.fav).name : 'Scegli la squadra da seguire';
+  }
+
+  /* ---------------- Avvio ---------------- */
+  renderNews();
+  renderClubs();
+  renderRules();
+  renderAltroSub();
+  let initial = 'home';
+  try { const h = (location.hash || '').slice(1); if (VIEWS.includes(h)) initial = h; } catch (e) { /* ignora */ }
+  if (state.fav && initial === 'gare') { state.gid = teamById.get(state.fav).gid; state.series = state.gid.split('-')[0]; }
+  go(initial, { silentFocus: true });
+})();
+</script>
+</body>
+</html>
